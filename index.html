@@ -31,12 +31,8 @@
       font-size: 15px;
       line-height: 1.6;
       overflow-x: hidden;
-
     }
 
-
-
-    /* PARTICLE CANVAS */
     #particle-canvas {
       position: fixed;
       inset: 0;
@@ -44,7 +40,6 @@
       pointer-events: none;
     }
 
-    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -76,10 +71,8 @@
     }
     .nav-links a:hover { color: var(--neon); text-shadow: 0 0 8px var(--neon); }
 
-    /* LAYOUT */
     .page { position: relative; z-index: 1; }
 
-    /* HERO */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -100,7 +93,6 @@
     }
     .hero::before { top: 5rem; left: 3rem; border-width: 1px 0 0 1px; }
     .hero::after  { bottom: 3rem; right: 3rem; border-width: 0 1px 1px 0; }
-
     .hero-glow {
       position: absolute;
       top: 20%; left: -8%;
@@ -109,8 +101,7 @@
       pointer-events: none;
     }
     .hero-grid {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background-image:
         linear-gradient(rgba(57,255,133,0.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(57,255,133,0.025) 1px, transparent 1px);
@@ -121,23 +112,16 @@
     }
     .hero-eyebrow {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--neon);
-      margin-bottom: 1.8rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease 0.2s forwards;
+      font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--neon); margin-bottom: 1.8rem;
+      opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards;
     }
     .hero-eyebrow::before { content: '// '; opacity: 0.4; }
     .hero-name {
       font-family: 'Share Tech Mono', monospace;
       font-size: clamp(4.5rem, 13vw, 11rem);
-      line-height: 0.88;
-      letter-spacing: 0.01em;
-      margin-bottom: 2.2rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.35s forwards;
+      line-height: 0.88; letter-spacing: 0.01em; margin-bottom: 2.2rem;
+      opacity: 0; animation: fadeUp 0.8s ease 0.35s forwards;
     }
     .hero-name .solid { color: var(--white); }
     .hero-name .neon {
@@ -145,125 +129,86 @@
       text-shadow: 0 0 22px var(--neon), 0 0 55px rgba(57,255,133,0.32), 0 0 100px rgba(57,255,133,0.12);
     }
     .hero-sub {
-      font-size: 0.9rem;
-      color: var(--muted);
-      max-width: 46ch;
-      line-height: 2;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.5s forwards;
+      font-size: 0.9rem; color: var(--muted); max-width: 46ch; line-height: 2;
+      opacity: 0; animation: fadeUp 0.8s ease 0.5s forwards;
     }
     .hero-badges {
-      display: flex; flex-wrap: wrap; gap: 0.6rem;
-      margin-top: 2.8rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.65s forwards;
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2.8rem;
+      opacity: 0; animation: fadeUp 0.8s ease 0.65s forwards;
     }
     .badge {
       padding: 0.28rem 0.82rem;
       border: 1px solid var(--border);
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+      font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--muted);
       transition: border-color 0.25s, color 0.25s, box-shadow 0.25s;
     }
     .badge:hover { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 10px rgba(57,255,133,0.18); }
     .badge.hl { border-color: var(--neon); color: var(--neon); background: var(--neon-dim); box-shadow: 0 0 12px rgba(57,255,133,0.14); }
     .hero-scroll {
-      position: absolute;
-      bottom: 2rem; left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--muted);
-      opacity: 0;
-      animation: fadeIn 1s ease 1.3s forwards;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      font-family: 'Share Tech Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted);
+      opacity: 0; animation: fadeIn 1s ease 1.3s forwards;
+      display: flex; align-items: center; gap: 0.5rem;
     }
     .hero-scroll::after {
-      content: '';
-      display: block;
-      width: 1px; height: 24px;
+      content: ''; display: block; width: 1px; height: 24px;
       background: linear-gradient(to bottom, var(--muted), transparent);
       animation: scrollPulse 2s ease-in-out infinite;
     }
     @keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
 
-    /* SECTIONS */
     .section {
       padding: 5.5rem 3rem;
       border-bottom: 1px solid var(--border);
       display: grid;
       grid-template-columns: 170px 1fr;
       gap: 4rem;
-      opacity: 0;
-      transform: translateY(20px);
+      opacity: 0; transform: translateY(20px);
       transition: opacity 0.65s ease, transform 0.65s ease;
       position: relative;
     }
     .section.visible { opacity: 1; transform: translateY(0); }
     .section::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 3rem; bottom: 3rem;
+      content: ''; position: absolute; left: 0; top: 3rem; bottom: 3rem;
       width: 1px;
       background: linear-gradient(to bottom, transparent, var(--neon), transparent);
-      opacity: 0;
-      transition: opacity 0.8s ease 0.3s;
+      opacity: 0; transition: opacity 0.8s ease 0.3s;
     }
     .section.visible::before { opacity: 0.25; }
 
     .section-num {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding-top: 0.4rem;
-      position: sticky;
-      top: 5.5rem;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted);
+      padding-top: 0.4rem; position: sticky; top: 5.5rem;
     }
     .section-num .big {
-      display: block;
-      font-size: 2.6rem;
-      color: transparent;
+      display: block; font-size: 2.6rem; color: transparent;
       -webkit-text-stroke: 1px var(--neon);
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.02em;
+      line-height: 1; margin-bottom: 0.5rem; letter-spacing: 0.02em;
     }
+    .num-link { text-decoration: none; color: inherit; }
+    .num-link .big { cursor: pointer; transition: text-shadow 0.2s; }
+    .num-link:hover .big { text-shadow: 0 0 18px rgba(57,255,133,0.6), 0 0 40px rgba(57,255,133,0.3); }
+
     .section-body h2 {
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(1.5rem, 2.8vw, 2.3rem);
-      line-height: 1.2;
-      margin-bottom: 1.4rem;
-      letter-spacing: 0.01em;
-      color: var(--white);
+      font-size: clamp(1.5rem, 2.8vw, 2.3rem); line-height: 1.2;
+      margin-bottom: 1.4rem; letter-spacing: 0.01em; color: var(--white);
     }
     .section-body h2 .g { color: var(--neon); text-shadow: 0 0 14px rgba(57,255,133,0.48); }
     .section-body p { color: var(--muted); line-height: 2; max-width: 54ch; margin-bottom: 0.9rem; font-size: 0.93rem; }
 
-    /* TERMINAL */
     .terminal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      margin-top: 2rem;
-      max-width: 540px;
-      overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+      margin-top: 2rem; max-width: 540px; overflow: hidden;
       box-shadow: 0 0 30px rgba(0,0,0,0.4);
     }
     .t-bar {
-      background: #111413;
-      padding: 0.55rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
+      background: #111413; padding: 0.55rem 1rem;
+      display: flex; align-items: center; gap: 0.45rem;
       border-bottom: 1px solid var(--border);
     }
     .t-dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -277,56 +222,35 @@
     .t-cmd { color: var(--text); }
     .t-out { color: var(--muted); padding-left: 1.6rem; }
 
-    /* PROJECT CARD */
     .project-card {
-      border: 1px solid var(--border);
-      padding: 2rem;
-      margin-top: 1.6rem;
-      max-width: 540px;
-      position: relative;
+      border: 1px solid var(--border); padding: 2rem; margin-top: 1.6rem;
+      max-width: 540px; position: relative;
       transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
       background: var(--surface);
     }
     .project-card:hover { border-color: var(--neon); box-shadow: 0 0 24px rgba(57,255,133,0.07), inset 0 0 24px rgba(57,255,133,0.025); transform: translateY(-2px); }
     .project-card.feat::before {
-      content: '★ FEATURED';
-      position: absolute;
-      top: -1px; right: 1.5rem;
-      background: var(--neon);
-      color: var(--bg);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.2em;
-      padding: 0.22rem 0.65rem;
-      font-weight: 700;
+      content: '★ FEATURED'; position: absolute; top: -1px; right: 1.5rem;
+      background: var(--neon); color: var(--bg);
+      font-family: 'Share Tech Mono', monospace; font-size: 0.58rem;
+      letter-spacing: 0.2em; padding: 0.22rem 0.65rem; font-weight: 700;
     }
     .p-title { font-family: 'Share Tech Mono', monospace; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--white); }
     .p-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.8rem 0; }
     .p-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.2rem 0.6rem; background: var(--neon-dim); color: var(--neon); border: 1px solid rgba(57,255,133,0.18); }
     .p-desc { color: #a5c8ab; font-size: 0.85rem; line-height: 1.85; }
 
-    /* THREE WORDS */
     .words-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem; }
     .word-chip {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(1.6rem, 3.2vw, 2.5rem);
-      color: transparent;
-      -webkit-text-stroke: 1px var(--neon);
-      letter-spacing: 0.02em;
-      transition: color 0.25s, text-shadow 0.25s;
-      cursor: default;
+      font-family: 'Share Tech Mono', monospace; font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+      color: transparent; -webkit-text-stroke: 1px var(--neon); letter-spacing: 0.02em;
+      transition: color 0.25s, text-shadow 0.25s; cursor: default;
     }
     .word-chip:hover { color: var(--neon); text-shadow: 0 0 20px var(--neon), 0 0 42px rgba(57,255,133,0.28); }
 
-    /* CONTACT */
     .contact-box {
-      margin-top: 1.8rem;
-      border: 1px solid var(--border);
-      padding: 2rem;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      margin-top: 1.8rem; border: 1px solid var(--border); padding: 2rem;
+      max-width: 500px; display: flex; flex-direction: column; gap: 1rem;
       background: var(--surface);
     }
     .c-row { display: flex; align-items: center; gap: 1rem; }
@@ -334,155 +258,77 @@
     .c-info { font-size: 0.85rem; color: var(--muted); }
     .c-info a { color: var(--neon); text-decoration: none; transition: text-shadow 0.2s; }
     .c-info a:hover { text-shadow: 0 0 10px var(--neon); }
-    .contact-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.4rem; }
-    .discord-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; }
-    .discord-tag span { color: var(--disc); text-shadow: 0 0 8px rgba(88,101,242,0.5); }
 
-    .glow-btn {
-      display: inline-block;
-      padding: 0.8rem 1.8rem;
-      background: transparent;
-      color: var(--neon);
-      border: 1px solid var(--neon);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      text-decoration: none;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(57,255,133,0.18), inset 0 0 10px rgba(57,255,133,0.04);
-      transition: box-shadow 0.25s, background 0.25s, transform 0.2s;
-    }
-    .glow-btn:hover { background: var(--neon-mid); box-shadow: 0 0 24px rgba(57,255,133,0.42), 0 0 52px rgba(57,255,133,0.18), inset 0 0 18px rgba(57,255,133,0.07); transform: translateY(-2px); }
-    .discord-btn { border-color: var(--disc); color: var(--disc); box-shadow: 0 0 10px rgba(88,101,242,0.2), inset 0 0 10px rgba(88,101,242,0.04); }
-    .discord-btn:hover { background: rgba(88,101,242,0.1); box-shadow: 0 0 24px rgba(88,101,242,0.42), 0 0 52px rgba(88,101,242,0.18); }
-
-    /* DIVIDER */
     .neon-divider { height: 1px; background: linear-gradient(to right, transparent, var(--neon), transparent); opacity: 0.15; }
 
-    /* FOOTER */
     footer { position: relative; z-index: 1; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
     .f-brand {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1rem;
-      color: var(--neon);
-      text-shadow: 0 0 10px var(--neon);
-      cursor: pointer;
-      user-select: none;
+      font-family: 'Share Tech Mono', monospace; font-size: 1rem;
+      color: var(--neon); text-shadow: 0 0 10px var(--neon);
+      cursor: pointer; user-select: none;
       transition: opacity 0.2s, text-shadow 0.2s;
     }
     .f-brand:hover { opacity: 0.65; text-shadow: 0 0 20px var(--neon), 0 0 40px var(--neon); }
     .f-meta { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; color: var(--muted); }
 
-    /* SECRET PAGE */
     #secret-page {
-      position: fixed;
-      inset: 0;
-      z-index: 5000;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.45s ease;
+      position: fixed; inset: 0; z-index: 5000; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.45s ease;
     }
     #secret-page.open { opacity: 1; pointer-events: all; }
-
     #secret-canvas { position: absolute; inset: 0; pointer-events: none; }
-
     #secret-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-      max-width: 560px;
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 2rem; max-width: 560px;
     }
-
     .s-eyebrow {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-      opacity: 0;
-      transform: translateY(10px);
+      font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 1.2rem; opacity: 0; transform: translateY(10px);
       transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
     }
     #secret-page.open .s-eyebrow { opacity: 1; transform: translateY(0); }
-
     .s-title {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      color: var(--white);
-      line-height: 1.15;
-      margin-bottom: 2rem;
-      opacity: 0;
-      transform: translateY(12px);
+      font-family: 'Share Tech Mono', monospace; font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--white); line-height: 1.15; margin-bottom: 2rem;
+      opacity: 0; transform: translateY(12px);
       transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
     }
     #secret-page.open .s-title { opacity: 1; transform: translateY(0); }
-
     .s-neon { color: var(--neon); text-shadow: 0 0 12px rgba(57,255,133,0.5); }
-
     .s-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 2rem 2.4rem;
-      max-width: 500px;
-      width: 100%;
-      margin-bottom: 1.8rem;
-      opacity: 0;
-      transform: translateY(14px);
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 2rem 2.4rem; max-width: 500px; width: 100%; margin-bottom: 1.8rem;
+      opacity: 0; transform: translateY(14px);
       transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
     }
     #secret-page.open .s-card { opacity: 1; transform: translateY(0); }
-
     .s-text { font-size: 0.95rem; color: var(--muted); line-height: 1.95; }
     .s-cough { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--muted); opacity: 0.55; }
-
     .s-link-btn {
-      display: inline-block;
-      margin-top: 1.6rem;
-      padding: 0.75rem 2rem;
-      border: 1px solid var(--neon);
-      color: var(--neon);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      text-decoration: none;
+      display: inline-block; margin-top: 1.6rem; padding: 0.75rem 2rem;
+      border: 1px solid var(--neon); color: var(--neon);
+      font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
       box-shadow: 0 0 12px rgba(57,255,133,0.2);
       transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     }
     .s-link-btn:hover { background: var(--neon-mid); box-shadow: 0 0 26px rgba(57,255,133,0.4); transform: translateY(-2px); }
-
     .s-back {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: none;
-      border: 1px solid var(--border);
-      padding: 0.6rem 1.4rem;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(8px);
+      font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted);
+      background: none; border: 1px solid var(--border); padding: 0.6rem 1.4rem;
+      cursor: pointer; opacity: 0; transform: translateY(8px);
       transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s, color 0.2s, border-color 0.2s;
     }
     .s-back:hover { color: var(--neon); border-color: var(--neon); }
     #secret-page.open .s-back { opacity: 1; transform: translateY(0); }
 
-    /* KEYFRAMES */
     @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
-    /* RESPONSIVE */
     @media (max-width: 700px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
@@ -517,7 +363,7 @@
       </h1>
       <p class="hero-sub">I build things because ideas demand to exist. From Minecraft plugins to websites, if it is interesting I will figure out how to make it.</p>
       <div class="hero-badges">
-        <span class="badge hl">🇦🇺 Australia</span>
+        <span class="badge hl">Australia</span>
         <span class="badge">Web Dev</span>
         <span class="badge">Plugin Dev</span>
         <span class="badge">Gamer</span>
@@ -529,7 +375,12 @@
     <div class="neon-divider"></div>
 
     <section class="section" id="about">
-      <div class="section-num"><a href="https://cubedash.bulkychicken.uk" target="_blank" style="text-decoration:none; color:inherit;"><span class="big" style="cursor:pointer; transition: text-shadow 0.2s;" onmouseover="this.style.textShadow='0 0 18px var(--neon), 0 0 40px rgba(57,255,133,0.4)'" onmouseout="this.style.textShadow='none'">01</span></a>About</div>
+      <div class="section-num">
+        <a href="https://bulkychicken.uk/gd" target="_blank" class="num-link">
+          <span class="big">01</span>
+        </a>
+        About
+      </div>
       <div class="section-body">
         <h2>An idea is all<br>it takes to <span class="g">start.</span></h2>
         <p>Hey, I am Bulky. A developer from Australia who got into coding simply because it was interesting. That curiosity turned into a real skill set, and now I spend my time building online and sharpening my craft.</p>
@@ -544,11 +395,11 @@
             <div class="t-row"><span class="t-prompt">$</span><span class="t-cmd">whoami</span></div>
             <div class="t-out">Bulky, developer, gamer, world traveller</div>
             <div class="t-row"><span class="t-prompt">$</span><span class="t-cmd">cat location.txt</span></div>
-            <div class="t-out">Australia 🇦🇺 (or somewhere overseas)</div>
+            <div class="t-out">Australia (or somewhere overseas)</div>
             <div class="t-row"><span class="t-prompt">$</span><span class="t-cmd">echo $MOTIVATION</span></div>
             <div class="t-out">Family. Ideas. The challenge.</div>
             <div class="t-row"><span class="t-prompt">$</span><span class="t-cmd">./status.sh</span></div>
-            <div class="t-out">Developing online skills, actively building ▮</div>
+            <div class="t-out">Developing online skills, actively building</div>
           </div>
         </div>
       </div>
@@ -599,22 +450,16 @@
       <div class="section-num"><span class="big">04</span>Contact</div>
       <div class="section-body">
         <h2>Let us <span class="g">connect.</span></h2>
-        <p>Got a project idea, a question, or just want to chat? Reach out via email or Discord. I am always open to something interesting.</p>
+        <p>Got a project idea, a question, or just want to chat? Reach out via email. I am always open to something interesting.</p>
         <div class="contact-box">
           <div class="c-row">
-            <div class="c-icon">✉</div>
-            <div class="c-info"><a href="mailto:Bulky@bulkychicken.uk">Bulky@bulkychicken.uk</a></div>
+            <div class="c-icon">&#9993;</div>
+            <div class="c-info"><a id="email-link" href="#">Bulky at bulkychicken.uk</a></div>
           </div>
           <div class="c-row">
-            <div class="c-icon">📍</div>
+            <div class="c-icon">&#128205;</div>
             <div class="c-info">Australia (or somewhere around the world)</div>
           </div>
-          <div class="contact-btns">
-            <a href="https://mail.google.com/mail/?view=cm&to=Bulky@bulkychicken.uk" target="_blank" class="glow-btn">Gmail</a>
-            <a href="https://outlook.live.com/mail/0/deeplink/compose?to=Bulky@bulkychicken.uk" target="_blank" class="glow-btn">Outlook</a>
-            <a href="https://discord.com/users/chunky_chicken123" target="_blank" class="glow-btn discord-btn">Discord</a>
-          </div>
-          <div class="discord-tag">Discord: <span>chunky_chicken123</span></div>
         </div>
       </div>
     </section>
@@ -625,7 +470,6 @@
     </footer>
   </div>
 
-  <!-- SECRET PAGE -->
   <div id="secret-page">
     <canvas id="secret-canvas"></canvas>
     <div id="secret-content">
@@ -639,8 +483,7 @@
         </p>
         <p class="s-text" style="margin-top:1.2rem;">
           So thank you Claude! Genuinely could not have done it without you.
-          If you are reading this you should <em style="color:var(--neon)">definitely</em> go use it.
-          Like right now. Seriously. Go.
+          If you are reading this you should <em style="color:var(--neon)">definitely</em> go use it. Like right now. Seriously. Go.
         </p>
         <a href="https://claude.ai" target="_blank" class="s-link-btn">Try Claude AI</a>
       </div>
@@ -649,132 +492,117 @@
   </div>
 
   <script>
+    (function() {
+      var u = 'Bulky', d = 'bulkychicken.uk';
+      var el = document.getElementById('email-link');
+      el.href = 'mailto:' + u + '@' + d;
+      el.textContent = u + '@' + d;
+    })();
 
-
-    // Track mouse for particles
-    let mx = -999, my = -999;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
-    // MAIN PARTICLES
-    const canvas = document.getElementById('particle-canvas');
-    const ctx    = canvas.getContext('2d');
-    let W, H;
+    var canvas = document.getElementById('particle-canvas');
+    var ctx = canvas.getContext('2d');
+    var W, H, mx = -999, my = -999;
     function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
     resize();
     window.addEventListener('resize', resize);
+    document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
 
-    const COUNT = 210, REPEL_R = 115, REPEL_STR = 4.8, FRICTION = 0.96, FADEOUT_DIST = 55, FADE_WAIT = 3000;
+    var COUNT = 210, REPEL_R = 115, REPEL_STR = 4.8, FRICTION = 0.96, FADEOUT_DIST = 55, FADE_WAIT = 3000;
 
-    class Particle {
-      constructor() {
-        this.ox = Math.random() * window.innerWidth;
-        this.oy = Math.random() * window.innerHeight;
-        this.x = this.ox; this.y = this.oy;
-        this.vx = 0; this.vy = 0;
-        this.r = Math.random() * 1.3 + 0.4;
-        this.baseAlpha = Math.random() * 0.45 + 0.2;
-        this.alpha = this.baseAlpha;
-        this.state = 'idle';
+    function Particle() {
+      this.ox = Math.random() * window.innerWidth;
+      this.oy = Math.random() * window.innerHeight;
+      this.x = this.ox; this.y = this.oy;
+      this.vx = 0; this.vy = 0;
+      this.r = Math.random() * 1.3 + 0.4;
+      this.baseAlpha = Math.random() * 0.45 + 0.2;
+      this.alpha = this.baseAlpha;
+      this.state = 'idle';
+    }
+    Particle.prototype.update = function() {
+      var self = this;
+      if (this.state === 'waiting') return;
+      if (this.state === 'fadein') {
+        this.alpha = Math.min(this.alpha + 0.016, this.baseAlpha);
+        if (this.alpha >= this.baseAlpha) { this.state = 'idle'; }
+        return;
       }
-      update() {
-        if (this.state === 'waiting') return;
-        if (this.state === 'fadein') {
-          this.alpha = Math.min(this.alpha + 0.016, this.baseAlpha);
-          if (this.alpha >= this.baseAlpha) { this.alpha = this.baseAlpha; this.state = 'idle'; }
-          return;
-        }
-        if (this.state === 'fadeout') {
-          this.alpha = Math.max(this.alpha - 0.02, 0);
-          this.vx *= FRICTION; this.vy *= FRICTION;
-          this.x += this.vx; this.y += this.vy;
-          if (this.alpha <= 0) {
-            this.state = 'waiting';
-            setTimeout(() => { this.x = this.ox; this.y = this.oy; this.vx = 0; this.vy = 0; this.alpha = 0; this.state = 'fadein'; }, FADE_WAIT);
-          }
-          return;
-        }
-        const dx = this.x - mx, dy = this.y - my;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < REPEL_R && dist > 0.01) {
-          const force = (1 - dist / REPEL_R) * REPEL_STR;
-          this.vx += (dx/dist)*force; this.vy += (dy/dist)*force;
-          this.state = 'repelled';
-        }
+      if (this.state === 'fadeout') {
+        this.alpha = Math.max(this.alpha - 0.02, 0);
         this.vx *= FRICTION; this.vy *= FRICTION;
         this.x += this.vx; this.y += this.vy;
-        const spd = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
-        if (spd > 11) { this.vx = this.vx/spd*11; this.vy = this.vy/spd*11; }
-        const ddx = this.x - this.ox, ddy = this.y - this.oy;
-        if (Math.sqrt(ddx*ddx + ddy*ddy) > FADEOUT_DIST) { this.state = 'fadeout'; return; }
-        if (this.state === 'repelled' && dist > REPEL_R && spd < 0.06) { this.x = this.ox; this.y = this.oy; this.vx = 0; this.vy = 0; this.state = 'idle'; }
+        if (this.alpha <= 0) {
+          this.state = 'waiting';
+          setTimeout(function() { self.x = self.ox; self.y = self.oy; self.vx = 0; self.vy = 0; self.alpha = 0; self.state = 'fadein'; }, FADE_WAIT);
+        }
+        return;
       }
-      draw() {
-        if (this.state === 'waiting' || this.alpha < 0.01) return;
-        ctx.save();
-        ctx.globalAlpha = this.alpha;
-        ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 4;
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fill();
-        ctx.restore();
+      var dx = this.x - mx, dy = this.y - my;
+      var dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < REPEL_R && dist > 0.01) {
+        var force = (1 - dist / REPEL_R) * REPEL_STR;
+        this.vx += (dx/dist)*force; this.vy += (dy/dist)*force;
+        this.state = 'repelled';
       }
+      this.vx *= FRICTION; this.vy *= FRICTION;
+      this.x += this.vx; this.y += this.vy;
+      var spd = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+      if (spd > 11) { this.vx = this.vx/spd*11; this.vy = this.vy/spd*11; }
+      var ddx = this.x - this.ox, ddy = this.y - this.oy;
+      if (Math.sqrt(ddx*ddx + ddy*ddy) > FADEOUT_DIST) { this.state = 'fadeout'; return; }
+      if (this.state === 'repelled' && dist > REPEL_R && spd < 0.06) { this.x = this.ox; this.y = this.oy; this.vx = 0; this.vy = 0; this.state = 'idle'; }
+    };
+    Particle.prototype.draw = function() {
+      if (this.state === 'waiting' || this.alpha < 0.01) return;
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 4;
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    };
+    var particles = [];
+    for (var i = 0; i < COUNT; i++) particles.push(new Particle());
+    function loop() {
+      ctx.clearRect(0,0,W,H);
+      for (var i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
+      requestAnimationFrame(loop);
     }
-    const particles = Array.from({ length: COUNT }, () => new Particle());
-    function loop() { ctx.clearRect(0,0,W,H); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(loop); }
     requestAnimationFrame(loop);
 
-    // SECRET PAGE
-    const secretPage = document.getElementById('secret-page');
-    const trigger    = document.getElementById('secret-trigger');
-    const goBack     = document.getElementById('go-back');
-    const sc         = document.getElementById('secret-canvas');
-    const sctx       = sc.getContext('2d');
-    let sW, sH, sParts = [], sRaf = null;
-
+    var secretPage = document.getElementById('secret-page');
+    var trigger    = document.getElementById('secret-trigger');
+    var goBack     = document.getElementById('go-back');
+    var sc         = document.getElementById('secret-canvas');
+    var sctx       = sc.getContext('2d');
+    var sW, sH, sParts = [], sRaf = null;
     function resizeSC() { sW = sc.width = window.innerWidth; sH = sc.height = window.innerHeight; }
-
-    function makeS() {
-      return {
-        x: Math.random() * sW, y: Math.random() * sH,
-        vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-        r: Math.random() * 1.2 + 0.3, alpha: Math.random() * 0.45 + 0.15
-      };
-    }
-
+    function makeS() { return { x:Math.random()*sW, y:Math.random()*sH, vx:(Math.random()-0.5)*0.35, vy:(Math.random()-0.5)*0.35, r:Math.random()*1.2+0.3, alpha:Math.random()*0.45+0.15 }; }
     function sLoop() {
-      sctx.clearRect(0, 0, sW, sH);
-      sParts.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = sW; if (p.x > sW) p.x = 0;
-        if (p.y < 0) p.y = sH; if (p.y > sH) p.y = 0;
-        sctx.save();
-        sctx.globalAlpha = p.alpha;
-        sctx.fillStyle = '#ffffff'; sctx.shadowColor = '#ffffff'; sctx.shadowBlur = 3;
-        sctx.beginPath(); sctx.arc(p.x, p.y, p.r, 0, Math.PI*2); sctx.fill();
-        sctx.restore();
-      });
+      sctx.clearRect(0,0,sW,sH);
+      for (var i = 0; i < sParts.length; i++) {
+        var p = sParts[i];
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0)p.x=sW; if(p.x>sW)p.x=0; if(p.y<0)p.y=sH; if(p.y>sH)p.y=0;
+        sctx.save(); sctx.globalAlpha=p.alpha; sctx.fillStyle='#ffffff'; sctx.shadowColor='#ffffff'; sctx.shadowBlur=3;
+        sctx.beginPath(); sctx.arc(p.x,p.y,p.r,0,Math.PI*2); sctx.fill(); sctx.restore();
+      }
       sRaf = requestAnimationFrame(sLoop);
     }
-
-    trigger.addEventListener('click', () => {
-      resizeSC();
-      sParts = Array.from({ length: 180 }, makeS);
-      secretPage.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      if (sRaf) cancelAnimationFrame(sRaf);
-      sRaf = requestAnimationFrame(sLoop);
+    trigger.addEventListener('click', function() {
+      resizeSC(); sParts = []; for(var i=0;i<180;i++) sParts.push(makeS());
+      secretPage.classList.add('open'); document.body.style.overflow='hidden';
+      if(sRaf) cancelAnimationFrame(sRaf); sRaf = requestAnimationFrame(sLoop);
+    });
+    goBack.addEventListener('click', function() {
+      secretPage.classList.remove('open'); document.body.style.overflow='';
+      if(sRaf) { cancelAnimationFrame(sRaf); sRaf=null; }
     });
 
-    goBack.addEventListener('click', () => {
-      secretPage.classList.remove('open');
-      document.body.style.overflow = '';
-      if (sRaf) { cancelAnimationFrame(sRaf); sRaf = null; }
-    });
-
-    // SCROLL REVEAL
-    const sections = document.querySelectorAll('.section');
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    var sections = document.querySelectorAll('.section');
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
-    sections.forEach(s => obs.observe(s));
+    sections.forEach(function(s) { obs.observe(s); });
   </script>
 </body>
 </html>
