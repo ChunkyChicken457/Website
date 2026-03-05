@@ -329,6 +329,137 @@
     @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
+    /* ---- SCROLL ANIMATION PRIMITIVES ---- */
+
+    /* Fade + slide up — applied to children inside sections */
+    .anim-child {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .section.visible .anim-child { opacity: 1; transform: translateY(0); }
+
+    /* Stagger delays for successive children */
+    .anim-child:nth-child(1) { transition-delay: 0.05s; }
+    .anim-child:nth-child(2) { transition-delay: 0.15s; }
+    .anim-child:nth-child(3) { transition-delay: 0.25s; }
+    .anim-child:nth-child(4) { transition-delay: 0.35s; }
+    .anim-child:nth-child(5) { transition-delay: 0.45s; }
+    .anim-child:nth-child(6) { transition-delay: 0.55s; }
+
+    /* Fade from left */
+    .anim-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .section.visible .anim-left { opacity: 1; transform: translateX(0); }
+
+    /* Scale in */
+    .anim-scale {
+      opacity: 0;
+      transform: scale(0.93);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .section.visible .anim-scale { opacity: 1; transform: scale(1); }
+
+    /* Heading clip reveal — text wipes in from left */
+    .anim-reveal {
+      overflow: hidden;
+      display: block;
+    }
+    .anim-reveal-inner {
+      display: block;
+      transform: translateY(110%);
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .section.visible .anim-reveal-inner { transform: translateY(0); }
+    .section.visible .anim-reveal-inner:nth-child(2) { transition-delay: 0.1s; }
+
+    /* Word chips pop in one by one */
+    .word-chip {
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+      transition: opacity 0.5s ease, transform 0.5s ease,
+                  color 0.25s ease, text-shadow 0.25s ease;
+    }
+    .section.visible .word-chip { opacity: 1; transform: translateY(0) scale(1); }
+    .section.visible .word-chip:nth-child(1) { transition-delay: 0.1s; }
+    .section.visible .word-chip:nth-child(2) { transition-delay: 0.22s; }
+    .section.visible .word-chip:nth-child(3) { transition-delay: 0.34s; }
+
+    /* Project cards slide in from right */
+    .project-card {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease,
+                  border-color 0.3s, box-shadow 0.3s;
+    }
+    .section.visible .project-card { opacity: 1; transform: translateX(0); }
+    .section.visible .project-card:nth-child(1) { transition-delay: 0.1s; }
+    .section.visible .project-card:nth-child(2) { transition-delay: 0.25s; }
+    .section.visible .project-card:nth-child(3) { transition-delay: 0.4s; }
+
+    /* Terminal types in — border draw effect */
+    .terminal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s,
+                  box-shadow 0.3s;
+    }
+    .section.visible .terminal { opacity: 1; transform: translateY(0); }
+
+    /* Contact box */
+    .contact-box {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease 0.15s, transform 0.65s ease 0.15s;
+    }
+    .section.visible .contact-box { opacity: 1; transform: translateY(0); }
+
+    /* Neon dividers draw in */
+    .neon-divider {
+      transform: scaleX(0);
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: left center;
+    }
+    .neon-divider.visible { transform: scaleX(1); }
+
+    /* Section number glow pulse on enter */
+    @keyframes numGlow {
+      0%   { filter: brightness(0.4); }
+      60%  { filter: brightness(1.6) drop-shadow(0 0 8px var(--neon)); }
+      100% { filter: brightness(1); }
+    }
+    .section.visible .section-num .big {
+      animation: numGlow 0.9s ease 0.1s both;
+    }
+
+    /* p-tags pop in */
+    .p-tag {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .section.visible .p-tag { opacity: 1; transform: scale(1); }
+    .section.visible .p-tag:nth-child(1) { transition-delay: 0.35s; }
+    .section.visible .p-tag:nth-child(2) { transition-delay: 0.42s; }
+    .section.visible .p-tag:nth-child(3) { transition-delay: 0.49s; }
+    .section.visible .p-tag:nth-child(4) { transition-delay: 0.56s; }
+
+    /* Hero parallax target */
+    .hero-name, .hero-eyebrow, .hero-sub, .hero-badges { will-change: transform; }
+
+    /* c-rows stagger */
+    .c-row {
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .section.visible .c-row { opacity: 1; transform: translateX(0); }
+    .section.visible .c-row:nth-child(1) { transition-delay: 0.25s; }
+    .section.visible .c-row:nth-child(2) { transition-delay: 0.38s; }
+
     @media (max-width: 700px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
@@ -375,17 +506,17 @@
     <div class="neon-divider"></div>
 
     <section class="section" id="about">
-      <div class="section-num">
+      <div class="section-num anim-left">
         <a href="https://bulkychicken.uk/gd" target="_blank" class="num-link">
           <span class="big">01</span>
         </a>
         About
       </div>
       <div class="section-body">
-        <h2>An idea is all<br>it takes to <span class="g">start.</span></h2>
-        <p>Hey, I am Bulky. A developer from Australia who got into coding simply because it was interesting. That curiosity turned into a real skill set, and now I spend my time building online and sharpening my craft.</p>
-        <p>I pick up whatever tools and languages the project demands. No fuss, just results. My family keeps me grounded and motivated to keep levelling up.</p>
-        <p>Fun fact: I travel overseas a lot, so there is a decent chance I am building something from a completely different timezone right now.</p>
+        <h2 class="anim-child">An idea is all<br>it takes to <span class="g">start.</span></h2>
+        <p class="anim-child">Hey, I am Bulky. A developer from Australia who got into coding simply because it was interesting. That curiosity turned into a real skill set, and now I spend my time building online and sharpening my craft.</p>
+        <p class="anim-child">I pick up whatever tools and languages the project demands. No fuss, just results. My family keeps me grounded and motivated to keep levelling up.</p>
+        <p class="anim-child">Fun fact: I travel overseas a lot, so there is a decent chance I am building something from a completely different timezone right now.</p>
         <div class="terminal">
           <div class="t-bar">
             <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
@@ -408,10 +539,10 @@
     <div class="neon-divider"></div>
 
     <section class="section" id="projects">
-      <div class="section-num"><span class="big">02</span>Projects</div>
+      <div class="section-num anim-left"><span class="big">02</span>Projects</div>
       <div class="section-body">
-        <h2>What I have <span class="g">built.</span></h2>
-        <p>My proudest work so far is a fully original Minecraft Paper plugin written from scratch with zero templates. Solving it independently is exactly the kind of challenge I enjoy. More websites are on the way.</p>
+        <h2 class="anim-child">What I have <span class="g">built.</span></h2>
+        <p class="anim-child">My proudest work so far is a fully original Minecraft Paper plugin written from scratch with zero templates. Solving it independently is exactly the kind of challenge I enjoy. More websites are on the way.</p>
         <div class="project-card feat">
           <div class="p-title">Minecraft Paper Plugin</div>
           <div class="p-tags">
@@ -432,25 +563,25 @@
     <div class="neon-divider"></div>
 
     <section class="section" id="personality">
-      <div class="section-num"><span class="big">03</span>Character</div>
+      <div class="section-num anim-left"><span class="big">03</span>Character</div>
       <div class="section-body">
-        <h2>Three words<br>that <span class="g">define me.</span></h2>
+        <h2 class="anim-child">Three words<br>that <span class="g">define me.</span></h2>
         <div class="words-row">
           <div class="word-chip">Curious.</div>
           <div class="word-chip">Driven.</div>
           <div class="word-chip">Adaptable.</div>
         </div>
-        <p style="margin-top:2.2rem;">Outside of code you will find me gaming or exploring a new country. The same mindset that takes me around the world is what keeps me building new things. Always looking to see what is possible.</p>
+        <p class="anim-child" style="margin-top:2.2rem;">Outside of code you will find me gaming or exploring a new country. The same mindset that takes me around the world is what keeps me building new things. Always looking to see what is possible.</p>
       </div>
     </section>
 
     <div class="neon-divider"></div>
 
     <section class="section" id="contact">
-      <div class="section-num"><span class="big">04</span>Contact</div>
+      <div class="section-num anim-left"><span class="big">04</span>Contact</div>
       <div class="section-body">
-        <h2>Let us <span class="g">connect.</span></h2>
-        <p>Got a project idea, a question, or just want to chat? Reach out via email. I am always open to something interesting.</p>
+        <h2 class="anim-child">Let us <span class="g">connect.</span></h2>
+        <p class="anim-child">Got a project idea, a question, or just want to chat? Reach out via email. I am always open to something interesting.</p>
         <div class="contact-box">
           <div class="c-row">
             <div class="c-icon">&#9993;</div>
@@ -562,6 +693,7 @@
     };
     var particles = [];
     for (var i = 0; i < COUNT; i++) particles.push(new Particle());
+
     function loop() {
       ctx.clearRect(0,0,W,H);
       for (var i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
@@ -600,9 +732,90 @@
 
     var sections = document.querySelectorAll('.section');
     var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        } else {
+          // Reset so animation replays next time it scrolls back into view
+          e.target.classList.remove('visible');
+          // Also reset typewriter so it replays
+          if (e.target.querySelector('.t-body')) {
+            terminalDone = false;
+            var children = e.target.querySelector('.t-body').children;
+            for (var i = 0; i < children.length; i++) {
+              children[i].style.opacity = '0';
+            }
+          }
+        }
+      });
     }, { threshold: 0.1 });
     sections.forEach(function(s) { obs.observe(s); });
+
+    // Neon dividers draw in and reset
+    var dividers = document.querySelectorAll('.neon-divider');
+    var divObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        } else {
+          e.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.5 });
+    dividers.forEach(function(d) { divObs.observe(d); });
+
+    // Hero parallax
+    window.addEventListener('scroll', function() {
+      var y = window.scrollY;
+      var name  = document.querySelector('.hero-name');
+      var eyebrow = document.querySelector('.hero-eyebrow');
+      var sub   = document.querySelector('.hero-sub');
+      var badges = document.querySelector('.hero-badges');
+      var grid  = document.querySelector('.hero-grid');
+      if (name)    name.style.transform    = 'translateY(' + (y * 0.18) + 'px)';
+      if (eyebrow) eyebrow.style.transform = 'translateY(' + (y * 0.10) + 'px)';
+      if (sub)     sub.style.transform     = 'translateY(' + (y * 0.12) + 'px)';
+      if (badges)  badges.style.transform  = 'translateY(' + (y * 0.08) + 'px)';
+      if (grid)    grid.style.transform    = 'translateY(' + (y * 0.06) + 'px)';
+    }, { passive: true });
+
+    // Terminal typewriter — runs once when terminal scrolls into view
+    var terminalDone = false;
+    var termObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting && !terminalDone) {
+          terminalDone = true;
+          runTypewriter();
+        }
+      });
+    }, { threshold: 0.4 });
+    var termEl = document.querySelector('.terminal');
+    if (termEl) termObs.observe(termEl);
+
+    function runTypewriter() {
+      var rows = document.querySelectorAll('.t-body .t-row');
+      var outs = document.querySelectorAll('.t-body .t-out');
+      // Hide all rows and outputs initially
+      rows.forEach(function(r) { r.style.opacity = '0'; });
+      outs.forEach(function(o) { o.style.opacity = '0'; });
+
+      var items = [];
+      var tbody = document.querySelector('.t-body');
+      var children = Array.prototype.slice.call(tbody.children);
+      children.forEach(function(el) { items.push(el); });
+
+      var i = 0;
+      function showNext() {
+        if (i >= items.length) return;
+        var el = items[i];
+        el.style.opacity = '1';
+        el.style.transition = 'opacity 0.2s ease';
+        i++;
+        var delay = el.classList.contains('t-row') ? 320 : 180;
+        setTimeout(showNext, delay);
+      }
+      setTimeout(showNext, 200);
+    }
   </script>
 </body>
 </html>
