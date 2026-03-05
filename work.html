@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Write a Good Short Film — The Craft</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0d0b;
+    --cream: #f5f0e8;
+    --warm: #e8ddc8;
+    --accent: #c9472e;
+    --gold: #b8922a;
+    --mid: #6b6458;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 0 80px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80');
+    background-size: cover;
+    background-position: center 30%;
+    opacity: 0.45;
+    filter: grayscale(30%);
+  }
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  .hero-stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 30px, transparent 30px, transparent 40px);
+  }
+  .issue-tag {
+    position: absolute;
+    top: 40px; right: 48px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.4);
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 60px;
+    max-width: 900px;
+  }
+  .hero-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 112px);
+    font-weight: 900;
+    line-height: 0.92;
+    color: #fff;
+    margin-bottom: 32px;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    max-width: 500px;
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* STRIP */
+  .intro-strip {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    padding: 18px 60px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.35em;
+    display: flex;
+    gap: 60px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  main { max-width: 1200px; margin: 0 auto; }
+
+  /* OPENER */
+  .opener {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .opener-text {
+    padding: 80px 60px;
+    border-right: 1px solid rgba(0,0,0,0.1);
+  }
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 1;
+    color: rgba(0,0,0,0.06);
+    margin-bottom: -20px;
+  }
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  h2 em { font-style: italic; color: var(--gold); }
+  .body-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #4a4540;
+  }
+  .body-text + .body-text { margin-top: 16px; }
+  .pullquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink);
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    padding: 28px 0;
+    margin: 40px 0;
+  }
+  .opener-visual {
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+  }
+  .opener-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(20%) contrast(1.05);
+    transition: transform 0.8s ease;
+  }
+  .opener-visual:hover img { transform: scale(1.03); }
+  .img-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: var(--ink);
+    color: rgba(255,255,255,0.55);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+  }
+
+  /* TIPS */
+  .tips-section {
+    padding: 100px 60px;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .tips-section::before {
+    content: 'CRAFT';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 280px;
+    position: absolute;
+    top: -40px; right: -20px;
+    color: rgba(255,255,255,0.025);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .tips-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 32px;
+  }
+  .tips-header h2 { color: #fff; max-width: 500px; }
+  .tips-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .tip-card {
+    background: rgba(255,255,255,0.04);
+    padding: 44px 36px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.3s ease, transform 0.3s ease;
+    cursor: default;
+  }
+  .tip-card:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-4px);
+  }
+  .tip-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    opacity: 0.6;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .tip-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+    line-height: 1.25;
+  }
+  .tip-body {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.5);
+  }
+  .tip-tag {
+    display: inline-block;
+    margin-top: 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 4px 10px;
+    opacity: 0.7;
+  }
+
+  /* STRUCTURE */
+  .structure-section {
+    padding: 100px 60px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 80px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .structure-sidebar h2 { position: sticky; top: 40px; }
+  .structure-visual { position: sticky; top: 40px; margin-top: 40px; }
+  .act-bar {
+    display: flex;
+    align-items: stretch;
+    gap: 3px;
+    height: 10px;
+    margin-bottom: 32px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .act-bar span:nth-child(1) { flex: 1; background: var(--accent); }
+  .act-bar span:nth-child(2) { flex: 2; background: var(--gold); }
+  .act-bar span:nth-child(3) { flex: 1; background: var(--mid); }
+  .structure-list { list-style: none; }
+  .structure-list li {
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .structure-list li:last-child { border-bottom: none; }
+  .act-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    padding-top: 4px;
+  }
+  .structure-list h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .structure-list p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #5a544e;
+  }
+
+  /* IMAGE FEATURE */
+  .image-feature {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 520px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .image-feature .feature-img {
+    overflow: hidden;
+    position: relative;
+  }
+  .image-feature .feature-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(15%) contrast(1.1);
+    transition: transform 0.8s ease;
+  }
+  .image-feature:hover .feature-img img { transform: scale(1.04); }
+  .feature-text {
+    padding: 80px 60px;
+    background: var(--warm);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .checklist { list-style: none; margin-top: 32px; }
+  .checklist li {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-size: 15px;
+    line-height: 1.6;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    color: #3e3830;
+  }
+  .checklist li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* MISTAKES */
+  .mistakes-section {
+    padding: 100px 60px;
+    background: var(--cream);
+  }
+  .mistakes-header { text-align: center; margin-bottom: 72px; }
+  .mistakes-header h2 { font-size: clamp(36px, 5vw, 62px); margin: 0 auto; }
+  .mistakes-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .mistake-card {
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 40px;
+    background: #fff;
+    transition: box-shadow 0.3s ease;
+  }
+  .mistake-card:hover { box-shadow: 6px 6px 0 var(--ink); }
+  .mistake-card .x-mark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .mistake-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .mistake-card p { font-size: 14px; line-height: 1.8; color: #5a544e; }
+
+  /* QUOTE */
+  .quote-full {
+    background: var(--accent);
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-full::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 500px;
+    position: absolute;
+    top: -120px; left: -30px;
+    color: rgba(0,0,0,0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-full blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 48px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.35;
+    color: #fff;
+    max-width: 860px;
+    margin: 0 auto 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .quote-full cite {
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+    font-style: normal;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* FINAL TIPS */
+  .final-tips {
+    padding: 100px 60px;
+    background: var(--ink);
+    color: #fff;
+  }
+  .final-tips h2 { color: #fff; margin-bottom: 60px; }
+  .two-col-tips {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px 80px;
+  }
+  .ftip { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 28px; }
+  .ftip h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .ftip p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.5); }
+
+  /* FOOTER */
+  footer {
+    background: #0a0908;
+    color: rgba(255,255,255,0.25);
+    padding: 48px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content > * { animation: fadeUp 0.9s ease both; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.5s; }
+
+  @media (max-width: 900px) {
+    .hero-content { padding: 0 30px; }
+    .opener, .image-feature { grid-template-columns: 1fr; }
+    .opener-text, .feature-text { padding: 60px 30px; }
+    .opener-visual { min-height: 300px; }
+    .tips-section, .structure-section, .mistakes-section, .final-tips, .quote-full { padding: 70px 30px; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .structure-section { grid-template-columns: 1fr; gap: 40px; }
+    .mistakes-row, .two-col-tips { grid-template-columns: 1fr; }
+    .tips-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .intro-strip { padding: 18px 30px; }
+    .issue-tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-stripe"></div>
+  <div class="issue-tag">The Filmmaker's Guide — Vol. I</div>
+  <div class="hero-content">
+    <div class="hero-label">The Craft of Cinema</div>
+    <h1>How to Write a<br><em>Good</em><br>Short Film</h1>
+    <p class="hero-sub">Every great feature begins as a short. Master the constraints of the form and you master storytelling itself.</p>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<div class="intro-strip">
+  <span>STORY &nbsp;·&nbsp; STRUCTURE</span>
+  <span>CHARACTER &nbsp;·&nbsp; CONCEPT</span>
+  <span>DIALOGUE &nbsp;·&nbsp; VISUAL LANGUAGE</span>
+  <span>SUBTEXT &nbsp;·&nbsp; PACING</span>
+  <span>CONFLICT &nbsp;·&nbsp; RESOLUTION</span>
+  <span>STORY &nbsp;·&nbsp; STRUCTURE</span>
+</div>
+
+<main>
+
+  <section class="opener">
+    <div class="opener-text">
+      <div class="section-num">01</div>
+      <div class="section-label">The Foundation</div>
+      <h2>Short Films Are Not<br><em>Small</em> Films</h2>
+      <p class="body-text">A short film isn't simply a feature with scenes removed. It's a distinct art form with its own grammar — one that demands economy, precision, and a ruthless commitment to a single, focused idea. Where features sprawl, short films distill.</p>
+      <p class="body-text">The best short films leave audiences with exactly one thing: a feeling that lingers. Not a dozen plot points, not five character arcs. One moment. One truth. One image they can't shake. Your script's entire job is to arrive at that moment as inevitably and efficiently as possible.</p>
+      <div class="pullquote">
+        "A short film is not a story waiting to grow up — it is a complete thought, perfectly formed."
+      </div>
+      <p class="body-text">Restraint isn't a limitation. It's your greatest creative weapon. Learn to love the cut, the implication, the frame that does the work of a thousand words.</p>
+    </div>
+    <div class="opener-visual">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=900&q=80" alt="Cinematography on set" loading="lazy">
+      <div class="img-caption">On Location · Direction & Framing</div>
+    </div>
+  </section>
+
+  <section class="tips-section">
+    <div class="tips-header">
+      <div>
+        <div class="section-label" style="color:rgba(255,255,255,0.35)">Core Principles</div>
+        <h2>The Essential<br><em>Tips</em></h2>
+      </div>
+      <div class="tips-count">07</div>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-num">01</div>
+        <div class="tip-title">Start With a Single, Undeniable Idea</div>
+        <p class="tip-body">A short film lives or dies by the strength of its core concept. Ask yourself: can you describe the idea in one sentence? If not, it's probably two ideas. Pick the more interesting one and cut everything else.</p>
+        <span class="tip-tag">Concept</span>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">02</div>
+        <div class="tip-title">Arrive Late, Leave Early</div>
+        <p class="tip-body">Enter every scene as late as possible and exit before it's finished. Your audience is smart — they'll fill the gaps. Anticipation and aftermath are often more powerful than the event itself.</p>
+        <span class="tip-tag">Pacing</span>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">03</div>
+        <div class="tip-title">Show the Inner Life Through Action</div>
+        <p class="tip-body">Your character's emotional state must live in behavior, not monologue. What someone does when no one is watching reveals everything. Replace exposition with a single telling gesture.</p>
+        <span class="tip-tag">Character</span>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">04</div>
+        <div class="tip-title">Earn Your Ending — Don't Explain It</div>
+        <p class="tip-body">The ending must feel both surprising and inevitable. Avoid the impulse to explain what just happened through dialogue. If the image doesn't land on its own, the script isn't finished yet.</p>
+        <span class="tip-tag">Resolution</span>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">05</div>
+        <div class="tip-title">Write to Your Resources</div>
+        <p class="tip-body">Two characters. One location. Daylight. These aren't constraints — they're creative parameters that separate real filmmakers from dreamers. The best short films in history were made with almost nothing.</p>
+        <span class="tip-tag">Production</span>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">06</div>
+        <div class="tip-title">Subtext Is the Script</div>
+        <p class="tip-body">No character should say what they really mean. Ever. People don't talk in statements — they talk around the thing. What is unsaid creates tension; what is said releases it. Use this deliberately.</p>
+        <span class="tip-tag">Dialogue</span>
+      </div>
+      <div class="tip-card" style="grid-column: 1 / -1; background: rgba(201,71,46,0.12); border-color: rgba(201,71,46,0.3);">
+        <div class="tip-num">07</div>
+        <div class="tip-title">The Question Your Film Must Answer</div>
+        <p class="tip-body" style="max-width: 720px;">Before writing page one, know what question your film asks — and what it answers. Not a theme stated in dialogue, but a dramatic question: <em style="color:rgba(255,255,255,0.7)">"Will she say goodbye before it's too late?"</em> Everything in the script should push toward or pull against that question's resolution.</p>
+        <span class="tip-tag" style="border-color:var(--accent); color:var(--accent);">The Foundation</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="structure-section">
+    <div class="structure-sidebar">
+      <div class="section-label">Blueprint</div>
+      <h2>The Three-Act<br><em>Short</em></h2>
+      <div class="structure-visual">
+        <div class="act-bar"><span></span><span></span><span></span></div>
+        <p class="body-text" style="font-size:13px; line-height:1.7;">Act I sets up the world and wound. Act II forces the confrontation. Act III pays off everything that came before — and nothing that didn't.</p>
+      </div>
+    </div>
+    <ul class="structure-list">
+      <li>
+        <span class="act-label">ACT I</span>
+        <div>
+          <h3>The Hook (Pages 1–2)</h3>
+          <p>Establish your character's world and wound in a single image or scene. We need to understand what they want — and what they're afraid of — before anything happens. Drop us into a moment already in motion.</p>
+        </div>
+      </li>
+      <li>
+        <span class="act-label" style="color:var(--gold)">ACT II</span>
+        <div>
+          <h3>The Obstacle (Pages 3–8)</h3>
+          <p>Introduce the event that forces your character to confront their wound. Each scene should raise the stakes or deepen the complication. The midpoint is the moment of no return — after this, going back is no longer possible.</p>
+        </div>
+      </li>
+      <li>
+        <span class="act-label" style="color:var(--mid)">ACT III</span>
+        <div>
+          <h3>The Reckoning (Pages 9–12)</h3>
+          <p>Your character makes a choice that costs them something real. The resolution doesn't need to be happy — it needs to be honest. The final image should echo the first, transformed by everything that came between.</p>
+        </div>
+      </li>
+      <li>
+        <span class="act-label" style="color:rgba(0,0,0,0.18); font-size:9px">ALWAYS</span>
+        <div>
+          <h3>The Title Card</h3>
+          <p>Your title is the first line of your screenplay. It sets tone, makes a promise, and should be deeply specific to your story. Avoid generic titles. Find the title that could only belong to your film.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="image-feature">
+    <div class="feature-img">
+      <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=900&q=80" alt="Writing a screenplay" loading="lazy">
+    </div>
+    <div class="feature-text">
+      <div class="section-label">Before You Write</div>
+      <h2>The Pre-Writing<br><em>Checklist</em></h2>
+      <ul class="checklist">
+        <li>Know your ending before you write your opening scene</li>
+        <li>Identify the single location that best externalizes your theme</li>
+        <li>Write a one-sentence logline — if it bores you, the idea does too</li>
+        <li>Know what changed in your character from page 1 to the last page</li>
+        <li>List every character — if any can be cut, cut them</li>
+        <li>Define your visual metaphor: the one image that carries your theme</li>
+        <li>Ask: would I watch this? Be brutally honest</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mistakes-section">
+    <div class="mistakes-header">
+      <div class="section-label">What to Avoid</div>
+      <h2>The Four Fatal<br><em>Mistakes</em></h2>
+    </div>
+    <div class="mistakes-row">
+      <div class="mistake-card">
+        <span class="x-mark">✕</span>
+        <h3>The Twist Ending That Breaks Your Rules</h3>
+        <p>A twist must recontextualize everything that came before — it cannot simply negate it. If your final revelation makes the rest of the story pointless, it's not a twist. It's a cheat. Audiences feel cheated even when they can't articulate why.</p>
+      </div>
+      <div class="mistake-card">
+        <span class="x-mark">✕</span>
+        <h3>Dialogue That Explains the Story</h3>
+        <p>"I can't believe it's been three years since the accident" is not dialogue. It's an information delivery system wearing a human disguise. If a character is explaining the plot, you have a structural problem — not a dialogue problem.</p>
+      </div>
+      <div class="mistake-card">
+        <span class="x-mark">✕</span>
+        <h3>A Protagonist With No Want</h3>
+        <p>Your main character must want something in every scene — not in a general life sense, but in a specific, immediate, cinematic sense. A character who simply reacts to events is not a protagonist. They're a witness.</p>
+      </div>
+      <div class="mistake-card">
+        <span class="x-mark">✕</span>
+        <h3>The Film That Runs Out of Story</h3>
+        <p>Many short films run out of story at minute seven and coast to an ending. Every scene must earn its place. If you can cut a scene and the film makes more sense, cut the scene. Always cut the scene.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-full">
+    <blockquote>
+      "Constraints are not the enemy of creativity. They are its most necessary condition."
+    </blockquote>
+    <cite>— On the art of the short form</cite>
+  </section>
+
+  <section class="final-tips">
+    <div class="section-label" style="color:rgba(255,255,255,0.3)">Going Deeper</div>
+    <h2>Advanced Principles<br><em>Worth Internalizing</em></h2>
+    <div class="two-col-tips">
+      <div class="ftip">
+        <h3>Visual Storytelling Over Dialogue</h3>
+        <p>Cinema is a visual medium. Every scene should be comprehensible with the sound off. If your film only works with the dialogue, you've written a radio play. Ask: what does this scene look like?</p>
+      </div>
+      <div class="ftip">
+        <h3>The Character Arc Is Non-Negotiable</h3>
+        <p>Even in 10 minutes, your protagonist must be different at the end. Not necessarily better — but changed. Something must have been learned, lost, or surrendered. Stasis is not a story.</p>
+      </div>
+      <div class="ftip">
+        <h3>Sound and Silence as Storytelling</h3>
+        <p>Write sound into your script when it matters. A ticking clock. The specific silence after a door closes. Sound design begins on the page. A writer who understands the sonic texture of their world thinks cinematically.</p>
+      </div>
+      <div class="ftip">
+        <h3>Write the Script. Then Cut 20%.</h3>
+        <p>Your first draft will always be longer than it should be. Draft one is about discovery. Draft two is about honesty. Cut every scene that doesn't advance or deepen. Then cut again. The film is in the cuts.</p>
+      </div>
+      <div class="ftip">
+        <h3>Location as Character</h3>
+        <p>Where your story takes place should not be arbitrary. The location should actively pressure your characters or reveal their psychology. A story about grief set in a carnival is already interesting before a single line is written.</p>
+      </div>
+      <div class="ftip">
+        <h3>Watch 100 Short Films</h3>
+        <p>No craft guide replaces firsthand study. Watch short films obsessively. Ask what each one is actually about — not in plot terms, but in emotional terms. Notice the structures, the silences. Learn by immersion.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">The Craft</div>
+  <span>A Guide to Short Film Writing</span>
+  <span>For Filmmakers &amp; Storytellers</span>
+</footer>
+
+</body>
+</html>
