@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minesweeper</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --grey: #c0c0c0;
+  --dark: #808080;
+  --white: #ffffff;
+  --navy: #000080;
+  --black: #000000;
+  --teal: #008080;
+  --red: #ff0000;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--teal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'VT323', monospace;
+  image-rendering: pixelated;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ── Win95 raised/sunken helpers ── */
+.raised {
+  border-top: 2px solid var(--white);
+  border-left: 2px solid var(--white);
+  border-right: 2px solid var(--dark);
+  border-bottom: 2px solid var(--dark);
+}
+.sunken {
+  border-top: 2px solid var(--dark);
+  border-left: 2px solid var(--dark);
+  border-right: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
+}
+.raised-outer {
+  border-top: 3px solid var(--white);
+  border-left: 3px solid var(--white);
+  border-right: 3px solid var(--dark);
+  border-bottom: 3px solid var(--dark);
+}
+
+/* ── Main window ── */
+#window {
+  background: var(--grey);
+  display: inline-flex;
+  flex-direction: column;
+}
+
+/* ── Menu bar ── */
+#menuBar {
+  background: var(--grey);
+  display: flex;
+  border-bottom: 1px solid var(--dark);
+  position: relative;
+  flex-shrink: 0;
+}
+.menu-item {
+  padding: 2px 10px 3px;
+  cursor: default;
+  color: var(--black);
+  position: relative;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+}
+.menu-item:hover, .menu-item.active { background: var(--navy); color: var(--white); }
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%; left: 0;
+  background: var(--grey);
+  border-top: 2px solid var(--white);
+  border-left: 2px solid var(--white);
+  border-right: 2px solid var(--dark);
+  border-bottom: 2px solid var(--dark);
+  z-index: 100;
+  min-width: 160px;
+  box-shadow: 2px 2px 0 var(--black);
+}
+.menu-item.active .dropdown { display: block; }
+.dd-item {
+  padding: 2px 8px 3px 22px;
+  font-size: 17px;
+  color: var(--black);
+  cursor: default;
+  white-space: nowrap;
+  position: relative;
+}
+.dd-item:hover { background: var(--navy); color: var(--white); }
+.dd-sep { border-top: 1px solid var(--dark); border-bottom: 1px solid var(--white); margin: 2px 0; }
+
+/* ── Game area ── */
+#gameArea {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+/* ── Top panel ── */
+#topPanel {
+  background: var(--grey);
+  padding: 5px 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── LCD counters ── */
+.lcd {
+  background: var(--black);
+  color: var(--red);
+  font-family: 'Courier New', monospace;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  padding: 1px 4px 2px;
+  min-width: 54px;
+  text-align: right;
+  line-height: 1.1;
+  border-top: 1px solid var(--dark);
+  border-left: 1px solid var(--dark);
+  border-right: 1px solid var(--white);
+  border-bottom: 1px solid var(--white);
+}
+
+/* ── Face button ── */
+#faceBtn {
+  cursor: pointer;
+  display: block;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+/* ── Board ── */
+#boardWrap {
+  display: inline-block;
+  line-height: 0;
+}
+#board {
+  display: grid;
+  gap: 0;
+}
+.cell {
+  background: var(--grey);
+  border-top: 2px solid var(--white);
+  border-left: 2px solid var(--white);
+  border-right: 2px solid var(--dark);
+  border-bottom: 2px solid var(--dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow: hidden;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+.cell.revealed {
+  border: 1px solid var(--dark);
+  background: var(--grey);
+  cursor: default;
+}
+.cell.mine-hit { background: var(--red); }
+.n1 { color: #0000ff; }
+.n2 { color: #008000; }
+.n3 { color: #ff0000; }
+.n4 { color: #000080; }
+.n5 { color: #800000; }
+.n6 { color: #008080; }
+.n7 { color: #000000; }
+.n8 { color: #808080; }
+
+/* ════════════════════════════════════════
+   DIFFICULTY DIALOG
+════════════════════════════════════════ */
+#diffDialog {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+#diffDialog.open { display: flex; }
+#diffBox {
+  background: var(--grey);
+  border-top: 3px solid var(--white);
+  border-left: 3px solid var(--white);
+  border-right: 3px solid var(--dark);
+  border-bottom: 3px solid var(--dark);
+  box-shadow: 4px 4px 0 var(--black);
+  min-width: 360px;
+}
+.dlg-title {
+  background: linear-gradient(90deg, var(--navy) 0%, #1084d0 100%);
+  color: var(--white);
+  font-size: 20px;
+  padding: 4px 8px 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  letter-spacing: 0.5px;
+}
+.dlg-tbx {
+  width: 18px; height: 16px;
+  background: var(--grey);
+  border-top: 1px solid var(--white);
+  border-left: 1px solid var(--white);
+  border-right: 1px solid var(--black);
+  border-bottom: 1px solid var(--black);
+  font-size: 12px; font-weight: bold; color: var(--black);
+  font-family: Arial, sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+}
+.dlg-tbx:active {
+  border-top: 1px solid var(--black);
+  border-left: 1px solid var(--black);
+  border-right: 1px solid var(--white);
+  border-bottom: 1px solid var(--white);
+}
+
+/* Difficulty cards */
+#diffCards {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 10px 12px 6px;
+}
+.diff-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 10px 8px;
+  cursor: default;
+  border: 2px solid transparent;
+  position: relative;
+}
+.diff-card:hover {
+  background: #d4d0c8;
+}
+.diff-card.selected {
+  background: var(--navy);
+  color: var(--white);
+}
+/* Win95-style radio pixel art */
+.diff-radio {
+  width: 13px; height: 13px;
+  flex-shrink: 0;
+  position: relative;
+}
+.diff-radio canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+.diff-label {
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  flex: 1;
+  min-width: 0;
+}
+.diff-sub {
+  font-size: 16px;
+  letter-spacing: 0.3px;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.diff-card.selected .diff-sub { opacity: 0.9; }
+
+/* Custom row inputs */
+#customRow {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 12px 6px 12px;
+  background: #d0ccc4;
+  border-top: 1px solid var(--dark);
+  border-bottom: 1px solid var(--white);
+}
+#customRow.visible { display: flex; }
+.custom-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.custom-field label {
+  font-size: 18px;
+  min-width: 110px;
+  color: var(--black);
+}
+.custom-field input[type=number] {
+  width: 70px;
+  background: var(--white);
+  border-top: 1px solid var(--dark);
+  border-left: 1px solid var(--dark);
+  border-right: 1px solid var(--white);
+  border-bottom: 1px solid var(--white);
+  font-size: 18px;
+  font-family: 'VT323', monospace;
+  padding: 1px 4px 2px;
+  color: var(--black);
+  outline: none;
+}
+#customNote {
+  font-size: 15px;
+  color: #666;
+  margin-left: 2px;
+  min-height: 16px;
+}
+
+/* Dialog separator + buttons */
+.dlg-sep { border-top: 1px solid var(--dark); border-bottom: 1px solid var(--white); margin: 4px 12px; }
+.dlg-btns { display: flex; justify-content: flex-end; gap: 8px; padding: 8px 12px 10px; }
+.win-btn {
+  background: var(--grey);
+  border-top: 2px solid var(--white);
+  border-left: 2px solid var(--white);
+  border-right: 2px solid var(--dark);
+  border-bottom: 2px solid var(--dark);
+  font-size: 19px;
+  font-family: 'VT323', monospace;
+  letter-spacing: 0.5px;
+  padding: 2px 20px 4px;
+  cursor: pointer;
+  min-width: 72px;
+  text-align: center;
+  color: var(--black);
+}
+.win-btn:active {
+  border-top: 2px solid var(--dark);
+  border-left: 2px solid var(--dark);
+  border-right: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
+  padding: 3px 19px 3px 21px;
+}
+
+/* ── Settings/custom game (same style, smaller) ── */
+#settingsDialog {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+#settingsDialog.open { display: flex; }
+</style>
+</head>
+<body>
+
+<div id="window" class="raised-outer">
+  <!-- Menu bar -->
+  <div id="menuBar">
+    <div class="menu-item" id="gameMenu" onclick="toggleMenu('gameMenu')">Game
+      <div class="dropdown">
+        <div class="dd-item" onclick="closeMenus();newGame()">New &nbsp;<span style="font-size:14px;color:#888">F2</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" onclick="closeMenus();openDiff()">Difficulty...</div>
+      </div>
+    </div>
+    <div class="menu-item" id="helpMenu" onclick="toggleMenu('helpMenu')">Help
+      <div class="dropdown" style="left:auto;right:0">
+        <div class="dd-item" onclick="closeMenus();showHelp()">How to Play</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game area -->
+  <div id="gameArea">
+    <div id="topPanel" class="sunken">
+      <div class="lcd" id="mineCounter">010</div>
+      <canvas id="faceBtn" width="26" height="26" onclick="newGame()" title="New Game (F2)"></canvas>
+      <div class="lcd" id="timerDisplay">000</div>
+    </div>
+    <div id="boardWrap" class="sunken">
+      <div id="board"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ DIFFICULTY DIALOG ════ -->
+<div id="diffDialog">
+  <div id="diffBox">
+    <div class="dlg-title">
+      <span>Select Difficulty</span>
+      <div class="dlg-tbx" onclick="closeDiff()">&#10005;</div>
+    </div>
+
+    <div id="diffCards">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <!-- Custom fields (shown when Custom is selected) -->
+    <div id="customRow">
+      <div class="custom-field">
+        <label>Rows (5-40)</label>
+        <input type="number" id="c-rows" min="5" max="40" value="9">
+      </div>
+      <div class="custom-field">
+        <label>Columns (5-60)</label>
+        <input type="number" id="c-cols" min="5" max="60" value="9">
+      </div>
+      <div class="custom-field">
+        <label>Mines</label>
+        <input type="number" id="c-mines" min="1" max="9999" value="10">
+      </div>
+      <div id="customNote"></div>
+    </div>
+
+    <div class="dlg-sep"></div>
+    <div class="dlg-btns">
+      <div class="win-btn" onclick="applyDiff()">OK</div>
+      <div class="win-btn" onclick="closeDiff()">Cancel</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// PIXEL ART FACES
+// ════════════════════════════════════════
+const FACE_NORMAL = [
+  '________________',
+  '________________',
+  '____KKKKKKKK____',
+  '___KYYYYYYYYYYK_',
+  '__KYYYYYYYYYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYKKYYYYYYYYKYK',
+  '_KYKKYYYYYYYYKYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYKKYYYKKYYYKYK',
+  '_KYYYYKKKKKYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '__KYYYYYYYYYYYYK',
+  '___KKKKKKKKKKKK_',
+  '________________',
+];
+const FACE_OH = [
+  '________________',
+  '________________',
+  '____KKKKKKKK____',
+  '___KYYYYYYYYYYK_',
+  '__KYYYYYYYYYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYKKYYYYYYYYKYK',
+  '_KYKKYYYYYYYYKYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYYYYYKKKYYYYYK',
+  '_KYYYY_K_KYYYYYK',
+  '_KYYYYYKKKYYYYYK',
+  '__KYYYYYYYYYYYYK',
+  '___KKKKKKKKKKKK_',
+  '________________',
+];
+const FACE_WIN = [
+  '________________',
+  '________________',
+  '____KKKKKKKK____',
+  '___KYYYYYYYYYYK_',
+  '__KYYYYYYYYYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYKKYYYYYYYYKYK',
+  '_KYKKYYYYYYYYKYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KYKKKKKKKKKKKYK',
+  '_KY_K_________KK',
+  '_KYYYYYYYYYYYYYK',
+  '__KYYYYYYYYYYYYK',
+  '___KKKKKKKKKKKK_',
+  '________________',
+];
+const FACE_DEAD = [
+  '________________',
+  '________________',
+  '____KKKKKKKK____',
+  '___KYYYYYYYYYYK_',
+  '__KYYYYYYYYYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '_KWWKYYYYYYYYKWK',
+  '_KWKKYYYYYYKKKWK',
+  '_KYKKKYYYKYKKYK_',
+  '_KYYYYYYYYYYYYYK',
+  '_KYYYYKKKKKYYYYK',
+  '_KYYYYKKKKKYYYYK',
+  '_KYYYYYYYYYYYYYK',
+  '__KYYYYYYYYYYYYK',
+  '___KKKKKKKKKKKK_',
+  '________________',
+];
+const FCOLOR = { K:'#000', Y:'#ffdd00', W:'#fff' };
+
+function drawFace(state) {
+  const cv = document.getElementById('faceBtn');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.fillStyle = '#c0c0c0'; ctx.fillRect(0,0,W,H);
+  const grid = state==='oh'?FACE_OH:state==='win'?FACE_WIN:state==='dead'?FACE_DEAD:FACE_NORMAL;
+  const px=W/16, py=H/16;
+  for (let r=0;r<16;r++) for (let c=0;c<16;c++) {
+    const ch=grid[r][c];
+    if(ch==='_') continue;
+    ctx.fillStyle=FCOLOR[ch]||'#ffdd00';
+    ctx.fillRect(Math.round(c*px),Math.round(r*py),Math.ceil(px)+1,Math.ceil(py)+1);
+  }
+}
+
+// Win95 pixel radio button: filled = selected
+function drawRadio(canvas, selected) {
+  const ctx = canvas.getContext('2d');
+  const S = canvas.width;
+  ctx.clearRect(0,0,S,S);
+  // outer shadow (dark top-left, white bottom-right)
+  ctx.fillStyle='#808080';
+  ctx.fillRect(2,0,S-4,1); ctx.fillRect(0,2,1,S-4); // top, left dark outer
+  ctx.fillRect(1,1,S-3,1); ctx.fillRect(1,1,1,S-3); // inner dark
+  ctx.fillStyle='#fff';
+  ctx.fillRect(2,S-1,S-4,1); ctx.fillRect(S-1,2,1,S-4); // bottom, right
+  ctx.fillRect(2,S-2,S-4,1); ctx.fillRect(S-2,2,1,S-4);
+  // white interior
+  ctx.fillStyle='#fff';
+  ctx.fillRect(2,2,S-4,S-4);
+  // fill dot if selected
+  if (selected) {
+    ctx.fillStyle='#000';
+    const d=Math.floor(S/2)-1;
+    ctx.fillRect(d-1,d-2,4,1);
+    ctx.fillRect(d-2,d-1,6,3);
+    ctx.fillRect(d-1,d+2,4,1);
+  }
+}
+
+// ════════════════════════════════════════
+// DIFFICULTY DEFINITIONS
+// ════════════════════════════════════════
+const DIFFS = [
+  { id:'beginner',     label:'Beginner',     rows:9,  cols:9,  mines:10, sub:'9 x 9,  10 mines' },
+  { id:'intermediate', label:'Intermediate', rows:16, cols:16, mines:40, sub:'16 x 16, 40 mines' },
+  { id:'expert',       label:'Expert',       rows:16, cols:30, mines:99, sub:'16 x 30, 99 mines' },
+  { id:'custom',       label:'Custom',       rows:9,  cols:9,  mines:10, sub:'Choose your own' },
+];
+
+let selectedDiff = 'beginner';
+let pendingDiff = 'beginner'; // what's highlighted in the dialog
+
+// Build difficulty cards
+function buildDiffCards() {
+  const container = document.getElementById('diffCards');
+  container.innerHTML = '';
+  DIFFS.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'diff-card' + (d.id === pendingDiff ? ' selected' : '');
+    card.dataset.id = d.id;
+    card.innerHTML = `
+      <div class="diff-radio"><canvas width="13" height="13"></canvas></div>
+      <div class="diff-label">${d.label}</div>
+      <div class="diff-sub">${d.sub}</div>
+    `;
+    card.addEventListener('click', () => selectDiff(d.id));
+    container.appendChild(card);
+    // draw radio
+    drawRadio(card.querySelector('canvas'), d.id === pendingDiff);
+  });
+}
+
+function selectDiff(id) {
+  pendingDiff = id;
+  // Update all cards
+  document.querySelectorAll('.diff-card').forEach(card => {
+    const isSelected = card.dataset.id === id;
+    card.className = 'diff-card' + (isSelected ? ' selected' : '');
+    drawRadio(card.querySelector('canvas'), isSelected);
+  });
+  // Show/hide custom inputs
+  const customRow = document.getElementById('customRow');
+  if (id === 'custom') {
+    customRow.classList.add('visible');
+    updateCustomNote();
+  } else {
+    customRow.classList.remove('visible');
+  }
+}
+
+function openDiff() {
+  pendingDiff = selectedDiff;
+  // Prefill custom fields with current settings if custom
+  if (selectedDiff === 'custom') {
+    document.getElementById('c-rows').value = ROWS;
+    document.getElementById('c-cols').value = COLS;
+    document.getElementById('c-mines').value = TOTAL_MINES;
+  }
+  buildDiffCards();
+  const customRow = document.getElementById('customRow');
+  if (pendingDiff === 'custom') customRow.classList.add('visible');
+  else customRow.classList.remove('visible');
+  updateCustomNote();
+  document.getElementById('diffDialog').classList.add('open');
+}
+
+function closeDiff() {
+  document.getElementById('diffDialog').classList.remove('open');
+}
+
+function applyDiff() {
+  selectedDiff = pendingDiff;
+  if (pendingDiff === 'custom') {
+    let r = parseInt(document.getElementById('c-rows').value);
+    let c = parseInt(document.getElementById('c-cols').value);
+    let m = parseInt(document.getElementById('c-mines').value);
+    r = Math.max(5,Math.min(40,r||9));
+    c = Math.max(5,Math.min(60,c||9));
+    const maxM = Math.max(1, r*c-9);
+    m = Math.max(1,Math.min(maxM,m||10));
+    ROWS=r; COLS=c; TOTAL_MINES=m;
+    // Update custom entry in DIFFS
+    const cd = DIFFS.find(d=>d.id==='custom');
+    cd.rows=r; cd.cols=c; cd.mines=m;
+    cd.sub=`${r} x ${c}, ${m} mines`;
+  } else {
+    const d = DIFFS.find(d=>d.id===pendingDiff);
+    ROWS=d.rows; COLS=d.cols; TOTAL_MINES=d.mines;
+  }
+  closeDiff();
+  newGame();
+}
+
+function updateCustomNote() {
+  const r=+document.getElementById('c-rows').value||0;
+  const c=+document.getElementById('c-cols').value||0;
+  const m=+document.getElementById('c-mines').value||0;
+  const max=Math.max(1,r*c-9);
+  const note=document.getElementById('customNote');
+  if(m>max){ note.textContent='Max mines for '+r+'x'+c+' is '+max; note.style.color='#c00'; }
+  else { note.textContent=r+'x'+c+' grid  |  max '+max+' mines'; note.style.color='#666'; }
+}
+['c-rows','c-cols','c-mines'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('input', updateCustomNote);
+});
+
+// ════════════════════════════════════════
+// GAME STATE
+// ════════════════════════════════════════
+let ROWS=9, COLS=9, TOTAL_MINES=10;
+let board=[], gameState, minesLeft, timerVal, timerInterval, firstClick;
+
+function calcCellSize() {
+  const maxW = Math.floor((window.innerWidth  - 80) / COLS);
+  const maxH = Math.floor((window.innerHeight - 130) / ROWS);
+  return Math.max(12, Math.min(32, maxW, maxH));
+}
+
+function newGame() {
+  minesLeft = TOTAL_MINES;
+  timerVal = 0;
+  gameState = 'idle';
+  firstClick = true;
+  clearInterval(timerInterval);
+  updateLCD('mineCounter', minesLeft);
+  updateLCD('timerDisplay', 0);
+  drawFace('normal');
+  board = [];
+  for (let r=0;r<ROWS;r++) { board[r]=[]; for (let c=0;c<COLS;c++) board[r][c]={mine:false,revealed:false,flagged:false,adj:0}; }
+  renderBoard();
+}
+
+function placeMines(sr,sc) {
+  let placed=0;
+  while(placed<TOTAL_MINES){
+    const r=Math.floor(Math.random()*ROWS), c=Math.floor(Math.random()*COLS);
+    if(board[r][c].mine) continue;
+    if(Math.abs(r-sr)<=1&&Math.abs(c-sc)<=1) continue;
+    board[r][c].mine=true; placed++;
+  }
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+    if(board[r][c].mine) continue;
+    let n=0; eachNeighbor(r,c,(nr,nc)=>{if(board[nr][nc].mine)n++;});
+    board[r][c].adj=n;
+  }
+}
+
+function eachNeighbor(r,c,fn){
+  for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){
+    if(!dr&&!dc) continue;
+    const nr=r+dr,nc=c+dc;
+    if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS) fn(nr,nc);
+  }
+}
+
+// ════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════
+function renderBoard() {
+  const sz = calcCellSize();
+  const boardEl = document.getElementById('board');
+  boardEl.style.gridTemplateColumns = `repeat(${COLS}, ${sz}px)`;
+  boardEl.innerHTML = '';
+  document.getElementById('topPanel').style.width = (COLS*sz+2)+'px';
+  const fs = Math.max(8,Math.floor(sz*0.6))+'px';
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+    const el=document.createElement('div');
+    el.className='cell'; el.style.width=el.style.height=sz+'px'; el.style.fontSize=fs;
+    el.dataset.r=r; el.dataset.c=c;
+    el.addEventListener('click',onLeftClick);
+    el.addEventListener('contextmenu',onRightClick);
+    el.addEventListener('mousedown',onMouseDown);
+    el.addEventListener('mouseup',onMouseUp);
+    boardEl.appendChild(el);
+  }
+}
+
+function getCellEl(r,c){ return document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`); }
+
+function updateCell(r,c){
+  const cell=board[r][c], el=getCellEl(r,c);
+  if(!el) return;
+  const sz=calcCellSize(), s=Math.max(8,sz-4);
+  el.className='cell'; el.style.width=el.style.height=sz+'px';
+  el.style.fontSize=Math.max(8,Math.floor(sz*0.6))+'px';
+  el.innerHTML='';
+  if(cell.flagged&&!cell.revealed){ el.innerHTML=svgFlag(s); return; }
+  if(!cell.revealed) return;
+  el.classList.add('revealed');
+  if(cell.mine){ if(cell.hitMine) el.classList.add('mine-hit'); el.innerHTML=svgMine(s); return; }
+  if(cell.wrongFlag){ el.innerHTML=svgWrongFlag(s); return; }
+  if(cell.adj>0){ const sp=document.createElement('span'); sp.className='n'+cell.adj; sp.textContent=cell.adj; el.appendChild(sp); }
+}
+
+function svgFlag(s){ return `<svg width="${s}" height="${s}" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="2" width="1" height="9" fill="#000"/><rect x="5" y="11" width="5" height="1" fill="#000"/><rect x="4" y="12" width="7" height="1" fill="#000"/><polygon points="7,2 7,8 13,5" fill="#f00"/></svg>`; }
+function svgMine(s){ return `<svg width="${s}" height="${s}" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="1" width="2" height="12" fill="#000"/><rect x="1" y="6" width="12" height="2" fill="#000"/><rect x="3" y="3" width="2" height="2" fill="#000"/><rect x="9" y="3" width="2" height="2" fill="#000"/><rect x="3" y="9" width="2" height="2" fill="#000"/><rect x="9" y="9" width="2" height="2" fill="#000"/><circle cx="7" cy="7" r="4" fill="#000"/><rect x="5" y="5" width="2" height="2" fill="#fff"/></svg>`; }
+function svgWrongFlag(s){ return `<svg width="${s}" height="${s}" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="2" width="1" height="9" fill="#000"/><rect x="5" y="11" width="5" height="1" fill="#000"/><rect x="4" y="12" width="7" height="1" fill="#000"/><polygon points="7,2 7,8 13,5" fill="#f00"/><line x1="1" y1="1" x2="13" y2="13" stroke="#f00" stroke-width="2"/><line x1="13" y1="1" x2="1" y2="13" stroke="#f00" stroke-width="2"/></svg>`; }
+
+// ════════════════════════════════════════
+// INPUT
+// ════════════════════════════════════════
+function onMouseDown(e){ if(gameState==='won'||gameState==='lost') return; if(e.button===0) drawFace('oh'); }
+function onMouseUp(e){ if(gameState==='won'||gameState==='lost') return; if(e.button===0) drawFace('normal'); }
+function onLeftClick(e){
+  if(gameState==='won'||gameState==='lost') return;
+  const r=+this.dataset.r, c=+this.dataset.c, cell=board[r][c];
+  if(cell.flagged||cell.revealed) return;
+  if(firstClick){ firstClick=false; placeMines(r,c); gameState='playing'; startTimer(); }
+  reveal(r,c); checkWin();
+}
+function onRightClick(e){
+  e.preventDefault();
+  if(gameState==='won'||gameState==='lost') return;
+  const r=+this.dataset.r, c=+this.dataset.c, cell=board[r][c];
+  if(cell.revealed) return;
+  cell.flagged=!cell.flagged; minesLeft+=cell.flagged?-1:1;
+  updateLCD('mineCounter',minesLeft); updateCell(r,c);
+}
+function reveal(r,c){
+  const cell=board[r][c];
+  if(cell.revealed||cell.flagged) return;
+  cell.revealed=true; updateCell(r,c);
+  if(cell.mine){ cell.hitMine=true; loseGame(); return; }
+  if(cell.adj===0) eachNeighbor(r,c,(nr,nc)=>reveal(nr,nc));
+}
+function checkWin(){
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) if(!board[r][c].mine&&!board[r][c].revealed) return;
+  gameState='won'; clearInterval(timerInterval); drawFace('win');
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) if(board[r][c].mine){ board[r][c].flagged=true; updateCell(r,c); }
+  updateLCD('mineCounter',0);
+}
+function loseGame(){
+  gameState='lost'; clearInterval(timerInterval); drawFace('dead');
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+    const cell=board[r][c];
+    if(cell.mine&&!cell.flagged&&!cell.hitMine){ cell.revealed=true; updateCell(r,c); }
+    else if(!cell.mine&&cell.flagged){ cell.wrongFlag=true; cell.revealed=true; updateCell(r,c); }
+    else if(cell.hitMine) updateCell(r,c);
+  }
+}
+
+// ════════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════════
+function updateLCD(id,val){
+  val=Math.max(-99,Math.min(999,val));
+  document.getElementById(id).textContent=val<0?'-'+String(Math.abs(val)).padStart(2,'0'):String(val).padStart(3,'0');
+}
+function startTimer(){
+  clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{ timerVal=Math.min(999,timerVal+1); updateLCD('timerDisplay',timerVal); },1000);
+}
+function toggleMenu(id){ document.querySelectorAll('.menu-item').forEach(el=>el.classList.toggle('active',el.id===id)); }
+function closeMenus(){ toggleMenu(null); }
+document.addEventListener('click',e=>{ if(!e.target.closest('.menu-item')) closeMenus(); });
+function showHelp(){ alert('LEFT CLICK  — reveal a cell\nRIGHT CLICK — place / remove a flag\nNUMBER      — adjacent mines\nF2          — new game\n\nClear all safe cells to win!\nFirst click is always safe.'); }
+
+document.addEventListener('keydown',e=>{ if(e.key==='F2') newGame(); });
+window.addEventListener('resize',()=>{
+  if(board.length){ renderBoard(); for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) updateCell(r,c); }
+});
+
+// ════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════
+newGame();
+drawFace('normal');
+</script>
+</body>
+</html>
