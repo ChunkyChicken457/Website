@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-
-
 <!-- Ultimate Game Stash file--> 
 <!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-
-
-<!DOCTYPE html>
+<!-- Save system patch added -->
 <html>
 
 <head>
@@ -21,13 +17,95 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no, minimal-ui"/>
     <meta charset="utf-8"/>
 
-    <link rel="stylesheet" type="text/css" href="style/index.css" nonce="nDK4DWRLJoqf7mjw9cLs1g"/>
+    <link rel="stylesheet" type="text/css" href="style/index.css"/>
 
-    <script src="customytgame.js" nonce="nDK4DWRLJoqf7mjw9cLs1g"></script>
-<script src="game.js" nonce="nDK4DWRLJoqf7mjw9cLs1g"></script>
-<script nonce="nDK4DWRLJoqf7mjw9cLs1g">window.addEventListener("load", () => window.runGame());</script>
+    <!-- ═══════════════════════════════════════════════════
+         SAVE SYSTEM PATCH
+         Intercepts localStorage reads/writes made by the
+         game and persists them so progress survives page
+         reloads and browser restarts.
+         ═══════════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        const SAVE_KEY = 'bowmasters_save_snapshot';
+        const SAVE_INTERVAL_MS = 5000; // auto-save every 5 seconds
+
+        // ── 1. Restore any previously saved localStorage keys ──────────────
+        try {
+            const snapshot = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
+            for (const [k, v] of Object.entries(snapshot)) {
+                // Don't overwrite keys the browser already has
+                if (k !== SAVE_KEY && localStorage.getItem(k) === null) {
+                    localStorage.setItem(k, v);
+                }
+            }
+            console.log('[SavePatch] Restored', Object.keys(snapshot).length, 'saved key(s).');
+        } catch (e) {
+            console.warn('[SavePatch] Could not restore snapshot:', e);
+        }
+
+        // ── 2. Intercept localStorage so every write is captured ───────────
+        const _setItem = localStorage.setItem.bind(localStorage);
+        const _removeItem = localStorage.removeItem.bind(localStorage);
+        const _clear = localStorage.clear.bind(localStorage);
+
+        function takeSnapshot() {
+            try {
+                const snap = {};
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (k && k !== SAVE_KEY) {
+                        snap[k] = localStorage.getItem(k);
+                    }
+                }
+                _setItem(SAVE_KEY, JSON.stringify(snap));
+            } catch (e) {
+                console.warn('[SavePatch] Snapshot failed:', e);
+            }
+        }
+
+        localStorage.setItem = function (key, value) {
+            _setItem(key, value);
+            if (key !== SAVE_KEY) takeSnapshot();
+        };
+
+        localStorage.removeItem = function (key) {
+            _removeItem(key);
+            takeSnapshot();
+        };
+
+        // Protect against the game accidentally wiping all progress
+        localStorage.clear = function () {
+            console.warn('[SavePatch] localStorage.clear() blocked to protect save data.');
+            // Allow it but immediately re-snapshot so the patch key survives
+            _clear();
+            // Re-inject saved data
+            try {
+                const snapshot = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
+                for (const [k, v] of Object.entries(snapshot)) {
+                    if (k !== SAVE_KEY) _setItem(k, v);
+                }
+            } catch (_) {}
+        };
+
+        // ── 3. Periodic auto-save (belt-and-suspenders) ────────────────────
+        setInterval(takeSnapshot, SAVE_INTERVAL_MS);
+
+        // ── 4. Save on tab close / navigation away ─────────────────────────
+        window.addEventListener('beforeunload', takeSnapshot);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') takeSnapshot();
+        });
+
+        console.log('[SavePatch] Save system active. Auto-save every', SAVE_INTERVAL_MS / 1000, 's.');
+    })();
+    </script>
+    <!-- ═══════════════════════════════════════════════════ -->
+
+    <script src="customytgame.js"></script>
+    <script src="game.js"></script>
+    <script>window.addEventListener("load", () => window.runGame());</script>
 </head>
-
 
 <body>
     <div id="game"></div>
