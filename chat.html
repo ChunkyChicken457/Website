@@ -20,8 +20,8 @@
   .header { background: linear-gradient(180deg, #0A0A0F 0%, #12121A 100%); border-bottom: 2px solid var(--gold-dark); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 30px rgba(0,0,0,0.8); }
   .logo { font-family: 'Cinzel', serif; font-size: 28px; color: var(--gold); text-shadow: 0 0 20px rgba(212,175,55,0.5); letter-spacing: 3px; }
   .logo span { color: var(--cream); }
-  .logo-spade { cursor: pointer; transition: all 0.2s; display: inline-block; user-select: none; }
-  .logo-spade:hover { transform: scale(1.3) rotate(-10deg); text-shadow: 0 0 30px rgba(168,85,247,0.8); color: #a855f7; }
+  .logo-spade { transition: all 0.2s; display: inline-block; user-select: none; }
+  .logo-spade:hover { }
   .wallet { display: flex; align-items: center; gap: 20px; }
   .balance-box { background: linear-gradient(135deg, #1C1C28, #252535); border: 1px solid var(--gold-dark); border-radius: 8px; padding: 8px 20px; text-align: center; }
   .balance-label { font-size: 11px; color: var(--gold-dark); letter-spacing: 2px; text-transform: uppercase; }
@@ -159,6 +159,33 @@
   .hist-win { color: var(--gold-light); } .hist-lose { color: var(--red-light); } .hist-push { color: var(--text); }
 
   .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 16px 0; }
+
+  /* POKER */
+  .poker-table { background: radial-gradient(ellipse at 50% 40%, #0f5c2e, #07341a); border-radius: 16px; padding: 24px 20px 20px; border: 3px solid rgba(212,175,55,0.3); position: relative; box-shadow: inset 0 0 60px rgba(0,0,0,0.4); }
+  .poker-section-label { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 3px; color: rgba(212,175,55,0.5); text-transform: uppercase; margin-bottom: 10px; text-align: center; }
+  .poker-hand-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; min-height: 110px; margin-bottom: 6px; }
+  .poker-card { width: 64px; height: 96px; background: #fafaf8; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 6px 4px; box-shadow: 2px 4px 12px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.1); position: relative; cursor: default; user-select: none; transition: transform 0.2s, box-shadow 0.2s; font-family: 'Playfair Display', serif; }
+  .poker-card.red-card { color: #c62828; }
+  .poker-card.black-card { color: #1a1a1a; }
+  .poker-card.held { transform: translateY(-10px); box-shadow: 2px 4px 20px rgba(212,175,55,0.6), 0 0 0 2px #D4AF37; }
+  .poker-card.selectable { cursor: pointer; }
+  .poker-card.selectable:hover:not(.held) { transform: translateY(-4px); box-shadow: 2px 4px 16px rgba(255,255,255,0.2); }
+  .poker-card.back { background: linear-gradient(135deg, #1a237e, #283593); cursor: default; }
+  .poker-card.back::after { content: '♦'; font-size: 36px; color: rgba(255,255,255,0.08); position: absolute; }
+  .poker-card-rank { font-size: 17px; font-weight: 900; line-height: 1; align-self: flex-start; }
+  .poker-card-suit { font-size: 28px; line-height: 1; }
+  .poker-card-rank-bot { font-size: 17px; font-weight: 900; line-height: 1; align-self: flex-end; transform: rotate(180deg); }
+  .held-badge { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-family: 'Cinzel', serif; font-size: 10px; color: var(--gold); letter-spacing: 1px; white-space: nowrap; }
+  .poker-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 20px 0 16px; }
+  .poker-hand-name { font-family: 'Cinzel', serif; font-size: 20px; color: var(--gold); text-align: center; min-height: 30px; letter-spacing: 2px; margin-bottom: 4px; text-shadow: 0 0 15px rgba(212,175,55,0.4); }
+  .poker-phase-hint { text-align: center; font-size: 14px; color: rgba(232,220,200,0.5); font-style: italic; min-height: 22px; margin-bottom: 8px; }
+  .paytable-poker { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 6px; margin-top: 14px; }
+  .ptp-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); border: 1px solid rgba(212,175,55,0.1); border-radius: 5px; padding: 7px 12px; font-size: 13px; }
+  .ptp-row.highlight { border-color: var(--gold); background: rgba(212,175,55,0.12); }
+  .ptp-name { color: var(--text); }
+  .ptp-pay { color: var(--gold); font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; }
+  .poker-pot { font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold-dark); text-align: center; letter-spacing: 2px; margin-bottom: 4px; }
+  .community-separator { text-align:center; font-size:11px; color:rgba(212,175,55,0.3); letter-spacing:3px; margin: 8px 0 4px; font-family:'Cinzel',serif; }
 
   /* ===== ADMIN PANEL ===== */
   #admin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 5000; justify-content: center; align-items: flex-start; overflow-y: auto; padding: 20px; }
@@ -477,7 +504,7 @@
 </div>
 
 <header class="header">
-  <div class="logo"><span class="logo-spade" onclick="openAdmin(null)" title="Admin Panel">♠</span> ROYAL <span>FLUSH</span> ♠</div>
+  <div class="logo"><span class="logo-spade" title="">♠</span> ROYAL <span>FLUSH</span> ♠</div>
   <div class="wallet">
     <div class="balance-box">
       <div class="balance-label">Balance</div>
@@ -493,6 +520,7 @@
   <button class="nav-btn" onclick="showPanel('blackjack',event)">🃏 Blackjack</button>
   <button class="nav-btn" onclick="showPanel('roulette',event)">🎡 Roulette</button>
   <button class="nav-btn" onclick="showPanel('craps',event)">🎲 Craps</button>
+  <button class="nav-btn" onclick="showPanel('poker',event)">♠ Poker</button>
   <button class="nav-btn" onclick="showPanel('earn',event)">💰 Earn</button>
   <button class="nav-btn" onclick="showPanel('profile',event)">👤 Profile</button>
 </nav>
@@ -693,7 +721,72 @@
       <div class="history-list" id="profile-history" style="max-height:300px"></div>
     </div>
     <div class="btn-row" style="margin-top:24px">
-      <button class="action-btn danger" onclick="resetGame()" style="font-size:13px">↺ Reset Progress</button>
+      <button class="action-btn danger" onclick="fullResetEverything()" style="font-size:13px">☠ Full Reset — Wipe All Progress</button>
+    </div>
+  </div>
+
+  <!-- POKER -->
+  <div class="game-panel" id="panel-poker">
+    <div class="section-title">♠ Video Poker</div>
+    <div class="section-sub">Five-card draw · Hold your best cards · Draw to win</div>
+    <div class="card">
+      <div class="poker-table">
+        <!-- Community / dealer area (Texas Hold'em mode shows here) -->
+        <div id="poker-community-area" style="display:none">
+          <div class="community-separator">— COMMUNITY CARDS —</div>
+          <div class="poker-hand-row" id="community-cards" style="min-height:80px"></div>
+          <div class="community-separator">— YOUR HAND —</div>
+        </div>
+
+        <div class="poker-section-label" id="poker-top-label">YOUR HAND</div>
+        <div style="position:relative;padding-bottom:28px;">
+          <div class="poker-hand-row" id="poker-player-hand"></div>
+        </div>
+
+        <div id="dealer-hand-area" style="display:none;margin-top:16px;">
+          <div class="poker-section-label">OPPONENT HAND</div>
+          <div class="poker-hand-row" id="poker-dealer-hand"></div>
+          <div id="dealer-hand-label" style="text-align:center;font-family:'Cinzel',serif;font-size:14px;color:var(--gold-dark);margin-top:4px;letter-spacing:2px;"></div>
+        </div>
+
+        <hr class="poker-divider">
+        <div class="poker-hand-name" id="poker-hand-name"></div>
+        <div class="poker-phase-hint" id="poker-phase-hint">Choose a game mode and place your bet</div>
+        <div class="poker-pot" id="poker-pot-display"></div>
+        <div class="result-msg" id="poker-result"></div>
+      </div>
+
+      <!-- Mode selector -->
+      <div style="display:flex;gap:10px;justify-content:center;margin:18px 0 8px;flex-wrap:wrap;">
+        <button class="chip-btn" id="mode-video" onclick="setPokerMode('video')" style="width:auto;padding:0 16px;border-radius:6px;font-size:12px;letter-spacing:1px;">VIDEO POKER</button>
+        <button class="chip-btn" id="mode-texashold" onclick="setPokerMode('texas')" style="width:auto;padding:0 16px;border-radius:6px;font-size:12px;letter-spacing:1px;">TEXAS HOLD'EM</button>
+      </div>
+      <div style="text-align:center;font-size:12px;color:rgba(232,220,200,0.3);margin-bottom:12px;" id="poker-mode-label">Mode: Video Poker (Five-Card Draw)</div>
+
+      <div class="bet-row">
+        <span class="bet-label">BET</span>
+        <button class="chip-btn minus" onclick="addBet('poker-bet',-100)">−100</button>
+        <button class="chip-btn minus" onclick="addBet('poker-bet',-25)">−25</button>
+        <input class="bet-input" type="number" id="poker-bet" value="25" min="1">
+        <button class="chip-btn" onclick="addBet('poker-bet',25)">+25</button>
+        <button class="chip-btn" onclick="addBet('poker-bet',100)">+100</button>
+        <button class="chip-btn" onclick="maxBet('poker-bet')">MAX</button>
+      </div>
+
+      <div class="btn-row" id="poker-btn-row">
+        <button class="action-btn" id="poker-deal-btn" onclick="pokerAction('deal')">DEAL</button>
+        <button class="action-btn safe" id="poker-draw-btn" onclick="pokerAction('draw')" style="display:none">DRAW</button>
+        <!-- Texas Hold'em actions -->
+        <button class="action-btn safe" id="poker-check-btn" onclick="pokerAction('check')" style="display:none">CHECK</button>
+        <button class="action-btn" id="poker-call-btn" onclick="pokerAction('call')" style="display:none">CALL</button>
+        <button class="action-btn" id="poker-raise-btn" onclick="pokerAction('raise')" style="display:none">RAISE</button>
+        <button class="action-btn danger" id="poker-fold-btn" onclick="pokerAction('fold')" style="display:none">FOLD</button>
+      </div>
+
+      <details style="margin-top:18px">
+        <summary style="font-family:'Cinzel',serif;color:var(--gold-dark);cursor:pointer;font-size:13px;letter-spacing:1px;">📋 Paytable</summary>
+        <div class="paytable-poker" id="poker-paytable" style="margin-top:12px"></div>
+      </details>
     </div>
   </div>
 
@@ -1490,6 +1583,19 @@ function updateEarnUI(){
   }).join('');
 }
 function resetGame(){if(!confirm('Erase ALL progress?'))return;localStorage.removeItem('royalflush_v3');state={balance:1000,totalWon:0,totalLost:0,gamesPlayed:0,gamesWon:0,bestWin:0,xp:0,history:[],lastDaily:null,slotsPlayed:0,bjPlayed:0,rouletteSpins:0,crapsRolls:0,earnProgress:{hourlyLast:null,streak:0,watchAdLast:null,challenge:0,challengeGoal:5,challengeGame:'slots'}};save();updateUI();showToast('Progress reset!');}
+function fullResetEverything(){
+  if(!confirm('☠ Full Reset — this wipes ALL progress AND all settings. Are you sure?'))return;
+  localStorage.removeItem('royalflush_v3');
+  localStorage.removeItem('rf_admin');
+  // Reset state
+  state={balance:1000,totalWon:0,totalLost:0,gamesPlayed:0,gamesWon:0,bestWin:0,xp:0,history:[],lastDaily:null,slotsPlayed:0,bjPlayed:0,rouletteSpins:0,crapsRolls:0,earnProgress:{hourlyLast:null,streak:0,watchAdLast:null,challenge:0,challengeGoal:5,challengeGame:'slots'}};
+  // Reset adminCfg to defaults
+  adminCfg={godMode:false,instantDaily:false,instantHourly:false,noMinBet:false,bjDealerBust:false,bjNoBust:false,bjAlwaysBJ:false,bjBlackjackPayout:2.5,bjWinPayout:2,bjDealerHit:17,bjDecks:1,rouNumberPay:35,rouOutsidePay:1,rouForce:-1,rouBias:0,rouNoZero:false,crapsPass:1,crapsDPass:1,crapsField:1,crapsAny7:4,crapsAny11:15,crapsSnake:30,crapsBox:30,crapsHard6:9,crapsLoaded:false,crapsLoadedVal:6,dailyAmt:200,hourlyAmt:50,brokeThreshold:50,brokeAmt:100,dailyCooldownHours:20,slotsBias:0,startBalance:1000,slotWeights:[20,18,16,14,12,2,3,10,5],slotPayouts:[100,50,20,10,5,3,1.5,1.2]};
+  save(); saveAdminCfg();
+  closeAdmin();
+  updateUI(); renderPaytable();
+  showToast('☠ Everything has been reset to factory defaults!');
+}
 
 // ===================== ADMIN PANEL =====================
 function openAdmin(tab){
@@ -1504,10 +1610,20 @@ function openAdmin(tab){
     if(btn)btn.classList.add('active');
   }
 }
-document.addEventListener('keydown',e=>{
-  if(e.key==='\\'&&document.getElementById('admin-overlay')&&!document.getElementById('admin-overlay').classList.contains('open')){
-    openAdmin('tab-cheats');
-  } else if(e.key==='Escape'){
+let _upCount = 0, _upTimer = null;
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp') {
+    _upCount++;
+    clearTimeout(_upTimer);
+    if (_upCount >= 5) {
+      _upCount = 0;
+      if (!document.getElementById('admin-overlay').classList.contains('open')) {
+        openAdmin('tab-cheats');
+      }
+    } else {
+      _upTimer = setTimeout(() => { _upCount = 0; }, 1500);
+    }
+  } else if (e.key === 'Escape') {
     closeAdmin();
   }
 });
@@ -1638,8 +1754,440 @@ function cheat(type,val){
   save(); updateUI(); if(document.getElementById('adm-balance'))document.getElementById('adm-balance').value=Math.floor(state.balance);
 }
 
+// ===================== POKER =====================
+const POKER_SUITS = ['♠','♥','♦','♣'];
+const POKER_RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+const RANK_VAL = {'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13,'A':14};
+
+let pokerMode = 'video'; // 'video' | 'texas'
+let pokerPhase = 'idle'; // idle | dealt | draw | flop | turn | river | showdown
+let pokerDeck = [];
+let pokerPlayerHand = [];
+let pokerHeld = [false,false,false,false,false];
+let pokerDealerHand = [];
+let pokerCommunity = [];
+let pokerBet = 0;
+let pokerPot = 0;
+let pokerTexasPhase = 0; // 0=preflop,1=flop,2=turn,3=river
+let pokerDealerBet = 0;
+
+// Payouts for video poker (Jacks or Better style)
+const VIDEO_POKER_PAYOUTS = [
+  { name: 'Royal Flush',     pay: 800, check: h => isRoyalFlush(h) },
+  { name: 'Straight Flush',  pay: 50,  check: h => isStraightFlush(h) },
+  { name: 'Four of a Kind',  pay: 25,  check: h => isFourOfAKind(h) },
+  { name: 'Full House',      pay: 9,   check: h => isFullHouse(h) },
+  { name: 'Flush',           pay: 6,   check: h => isFlush(h) },
+  { name: 'Straight',        pay: 4,   check: h => isStraight(h) },
+  { name: 'Three of a Kind', pay: 3,   check: h => isThreeOfAKind(h) },
+  { name: 'Two Pair',        pay: 2,   check: h => isTwoPair(h) },
+  { name: 'Jacks or Better', pay: 1,   check: h => isJacksOrBetter(h) },
+];
+
+function makePokerDeck() {
+  let d = [];
+  for (let s of POKER_SUITS) for (let r of POKER_RANKS) d.push({r, s});
+  return d.sort(() => Math.random() - 0.5);
+}
+function isRedSuit(s) { return s === '♥' || s === '♦'; }
+
+function renderPokerCard(c, selectable=false, heldIdx=-1) {
+  if (!c) return `<div class="poker-card back"></div>`;
+  const red = isRedSuit(c.s) ? 'red-card' : 'black-card';
+  const heldClass = (heldIdx >= 0 && pokerHeld[heldIdx]) ? 'held' : '';
+  const selClass = selectable ? 'selectable' : '';
+  const click = selectable ? `onclick="toggleHold(${heldIdx})"` : '';
+  return `<div class="poker-card ${red} ${heldClass} ${selClass}" ${click}>
+    <div class="poker-card-rank">${c.r}</div>
+    <div class="poker-card-suit">${c.s}</div>
+    <div class="poker-card-rank-bot">${c.r}</div>
+    ${heldIdx>=0&&pokerHeld[heldIdx]?`<div class="held-badge">HELD</div>`:''}
+  </div>`;
+}
+
+function renderPokerHands() {
+  const ph = document.getElementById('poker-player-hand');
+  const selectable = pokerPhase === 'dealt' && pokerMode === 'video';
+  ph.innerHTML = pokerPlayerHand.map((c,i) => renderPokerCard(c, selectable, selectable ? i : -1)).join('');
+
+  // Community cards (Texas)
+  const comm = document.getElementById('community-cards');
+  if (comm) {
+    comm.innerHTML = pokerCommunity.map(c => renderPokerCard(c)).join('');
+    // Show face-down placeholders for unrevealed community cards
+    const remaining = 5 - pokerCommunity.length;
+    for (let i = 0; i < remaining; i++) comm.innerHTML += renderPokerCard(null);
+  }
+
+  // Dealer hand (Texas)
+  const dh = document.getElementById('poker-dealer-hand');
+  if (dh) dh.innerHTML = pokerDealerHand.map((c,i) => {
+    if (pokerPhase !== 'showdown' && i === 1) return renderPokerCard(null); // hole card hidden
+    return renderPokerCard(c);
+  }).join('');
+}
+
+function toggleHold(i) {
+  if (pokerPhase !== 'dealt' || pokerMode !== 'video') return;
+  pokerHeld[i] = !pokerHeld[i];
+  renderPokerHands();
+  // Show hand name preview while holding
+  const preview = evaluateHand(pokerPlayerHand);
+  document.getElementById('poker-hand-name').textContent = preview ? preview.name : '';
+}
+
+function setPokerMode(mode) {
+  pokerMode = mode;
+  pokerPhase = 'idle';
+  pokerPlayerHand = []; pokerDealerHand = []; pokerCommunity = []; pokerHeld = [false,false,false,false,false];
+  document.getElementById('poker-community-area').style.display = mode === 'texas' ? 'block' : 'none';
+  document.getElementById('dealer-hand-area').style.display = mode === 'texas' ? 'block' : 'none';
+  document.getElementById('poker-top-label').textContent = 'YOUR HAND';
+  document.getElementById('poker-mode-label').textContent = mode === 'video' ? 'Mode: Video Poker (Five-Card Draw)' : "Mode: Texas Hold'em vs Dealer";
+  document.getElementById('poker-hand-name').textContent = '';
+  document.getElementById('poker-phase-hint').textContent = 'Place your bet and deal';
+  document.getElementById('poker-result').textContent = '';
+  document.getElementById('poker-result').className = 'result-msg';
+  document.getElementById('poker-pot-display').textContent = '';
+  renderPokerHands();
+  showPokerButtons(['deal']);
+  renderPokerPaytable();
+  // highlight active mode button
+  document.getElementById('mode-video').style.borderColor = mode==='video' ? 'var(--gold)' : '';
+  document.getElementById('mode-texashold').style.borderColor = mode==='texas' ? 'var(--gold)' : '';
+}
+
+function showPokerButtons(visible) {
+  const all = ['deal','draw','check','call','raise','fold'];
+  all.forEach(b => {
+    const el = document.getElementById(`poker-${b}-btn`);
+    if (el) el.style.display = visible.includes(b) ? '' : 'none';
+  });
+}
+
+function pokerAction(action) {
+  if (action === 'deal') {
+    pokerMode === 'video' ? dealVideoPoker() : dealTexasPoker();
+  } else if (action === 'draw') {
+    drawVideoPoker();
+  } else if (action === 'check') {
+    texasNextStreet(false);
+  } else if (action === 'call') {
+    texasCall();
+  } else if (action === 'raise') {
+    texasRaise();
+  } else if (action === 'fold') {
+    texasFold();
+  }
+}
+
+// ---- VIDEO POKER ----
+function dealVideoPoker() {
+  const bet = getBet('poker-bet'); if (!bet && !adminCfg.noMinBet) return;
+  pokerBet = bet;
+  state.balance -= bet;
+  pokerDeck = makePokerDeck();
+  pokerPlayerHand = [pokerDeck.pop(), pokerDeck.pop(), pokerDeck.pop(), pokerDeck.pop(), pokerDeck.pop()];
+  pokerHeld = [false, false, false, false, false];
+
+  // VIP luck: if fires, secretly upgrade one card to help make a pair/straight/flush
+  if (vipLuckFires()) vipBoostVideoHand();
+
+  pokerPhase = 'dealt';
+  renderPokerHands();
+  const ev = evaluateHand(pokerPlayerHand);
+  document.getElementById('poker-hand-name').textContent = ev ? ev.name : '';
+  document.getElementById('poker-phase-hint').textContent = 'Click cards to HOLD them, then hit DRAW';
+  document.getElementById('poker-result').textContent = '';
+  document.getElementById('poker-result').className = 'result-msg';
+  showPokerButtons(['draw']);
+  updateUI();
+}
+
+function vipBoostVideoHand() {
+  // Try to improve the hand by replacing the worst card with one that makes a pair
+  const ranks = pokerPlayerHand.map(c => c.r);
+  const rankCounts = {};
+  ranks.forEach(r => rankCounts[r] = (rankCounts[r]||0) + 1);
+  const pairs = Object.entries(rankCounts).filter(([,v])=>v===2);
+  if (pairs.length === 0) {
+    // No pair yet — replace the lowest card with a copy of one of the other ranks
+    const sorted = [...pokerPlayerHand].sort((a,b) => RANK_VAL[a.r]-RANK_VAL[b.r]);
+    const target = sorted[0];
+    const idx = pokerPlayerHand.indexOf(target);
+    const matchRank = pokerPlayerHand[(idx+1)%5].r;
+    const suits = POKER_SUITS.filter(s => !pokerPlayerHand.some(c=>c.r===matchRank&&c.s===s));
+    if (suits.length > 0) pokerPlayerHand[idx] = {r: matchRank, s: suits[0]};
+  }
+}
+
+function drawVideoPoker() {
+  // Replace unheld cards
+  for (let i = 0; i < 5; i++) {
+    if (!pokerHeld[i]) pokerPlayerHand[i] = pokerDeck.pop();
+  }
+  pokerHeld = [false,false,false,false,false];
+  pokerPhase = 'idle';
+  renderPokerHands();
+
+  const result = evaluateHand(pokerPlayerHand);
+  const payout = result ? result.pay * pokerBet : 0;
+  state.balance += payout;
+
+  const res = document.getElementById('poker-result');
+  document.getElementById('poker-hand-name').textContent = result ? result.name : 'No Win';
+  if (payout > 0) {
+    res.textContent = `${result.name}! You win ${fmt(payout)}! 🎉`;
+    res.className = 'result-msg win';
+    recordResult('poker', true, payout - pokerBet, pokerBet);
+  } else {
+    res.textContent = `No winning hand. Better luck next time!`;
+    res.className = 'result-msg lose';
+    recordResult('poker', false, -pokerBet, pokerBet);
+  }
+  document.getElementById('poker-phase-hint').textContent = 'Deal again to play another hand';
+  showPokerButtons(['deal']);
+  updateUI();
+}
+
+// ---- TEXAS HOLD'EM ----
+function dealTexasPoker() {
+  const bet = getBet('poker-bet'); if (!bet && !adminCfg.noMinBet) return;
+  pokerBet = bet;
+  pokerPot = bet * 2; // ante + dealer ante
+  state.balance -= bet;
+  pokerDeck = makePokerDeck();
+  pokerCommunity = [];
+  pokerTexasPhase = 0;
+  pokerDealerBet = bet;
+
+  pokerPlayerHand = [pokerDeck.pop(), pokerDeck.pop()];
+  pokerDealerHand = [pokerDeck.pop(), pokerDeck.pop()];
+  pokerPhase = 'dealt';
+
+  renderPokerHands();
+  document.getElementById('poker-pot-display').textContent = `POT: ${fmt(pokerPot)}`;
+  document.getElementById('poker-phase-hint').textContent = 'Pre-Flop: Check, Raise, or Fold';
+  document.getElementById('poker-hand-name').textContent = '';
+  document.getElementById('poker-result').textContent = '';
+  document.getElementById('poker-result').className = 'result-msg';
+  showPokerButtons(['check','raise','fold']);
+  updateUI();
+}
+
+function texasNextStreet(dealerCheck) {
+  pokerTexasPhase++;
+  if (pokerTexasPhase === 1) {
+    // Flop
+    pokerCommunity = [pokerDeck.pop(), pokerDeck.pop(), pokerDeck.pop()];
+    document.getElementById('poker-phase-hint').textContent = 'Flop: Check, Raise, or Fold';
+  } else if (pokerTexasPhase === 2) {
+    // Turn
+    pokerCommunity.push(pokerDeck.pop());
+    document.getElementById('poker-phase-hint').textContent = 'Turn: Check, Raise, or Fold';
+  } else if (pokerTexasPhase === 3) {
+    // River
+    pokerCommunity.push(pokerDeck.pop());
+    document.getElementById('poker-phase-hint').textContent = 'River: Check, Raise, or Fold';
+  } else {
+    // Showdown
+    return texasShowdown();
+  }
+  renderPokerHands();
+  const best = bestFiveFromSeven([...pokerPlayerHand, ...pokerCommunity]);
+  const ev = evaluateHand(best);
+  document.getElementById('poker-hand-name').textContent = ev ? ev.name : '';
+  document.getElementById('poker-pot-display').textContent = `POT: ${fmt(pokerPot)}`;
+  showPokerButtons(['check','raise','fold']);
+}
+
+function texasCall() {
+  const callAmt = pokerDealerBet;
+  if (callAmt > state.balance) { showToast('Not enough to call!'); return; }
+  state.balance -= callAmt;
+  pokerPot += callAmt * 2;
+  updateUI();
+  texasNextStreet(false);
+}
+
+function texasRaise() {
+  const raiseAmt = pokerBet * 2;
+  if (raiseAmt > state.balance) { showToast('Not enough to raise!'); return; }
+  state.balance -= raiseAmt;
+  pokerPot += raiseAmt * 2;
+  pokerDealerBet = raiseAmt;
+  updateUI();
+  texasNextStreet(false);
+}
+
+function texasFold() {
+  pokerPhase = 'idle';
+  const res = document.getElementById('poker-result');
+  res.textContent = `You folded. Dealer takes the pot (${fmt(pokerPot)}).`;
+  res.className = 'result-msg lose';
+  document.getElementById('poker-phase-hint').textContent = 'Deal again to play another hand';
+  document.getElementById('poker-pot-display').textContent = '';
+  document.getElementById('poker-hand-name').textContent = '';
+  recordResult('poker', false, -pokerBet, pokerBet);
+  showPokerButtons(['deal']);
+  updateUI();
+}
+
+function texasShowdown() {
+  pokerPhase = 'showdown';
+  // Reveal all community cards
+  while (pokerCommunity.length < 5) pokerCommunity.push(pokerDeck.pop());
+  renderPokerHands();
+  document.getElementById('dealer-hand-label').textContent = '';
+
+  const playerBest = bestFiveFromSeven([...pokerPlayerHand, ...pokerCommunity]);
+  const dealerBest = bestFiveFromSeven([...pokerDealerHand, ...pokerCommunity]);
+  const playerEval = evaluateHand(playerBest);
+  const dealerEval = evaluateHand(dealerBest);
+
+  // VIP luck: if fires, swap dealer's worst card for a worse one
+  let dealerBoosted = false;
+  if (vipLuckFires() && dealerEval && playerEval) {
+    // downgrade dealer: replace their best card with a 2
+    const worstSuit = POKER_SUITS.find(s => !pokerDealerHand.some(c=>c.s===s&&c.r==='2')) || '♣';
+    pokerDealerHand[0] = {r:'2', s: worstSuit};
+    const newDealerBest = bestFiveFromSeven([...pokerDealerHand, ...pokerCommunity]);
+    dealerBest.splice(0, 5, ...newDealerBest);
+    dealerBoosted = true;
+  }
+  const finalDealerEval = evaluateHand(dealerBest);
+
+  document.getElementById('poker-hand-name').textContent = playerEval ? playerEval.name : 'High Card';
+  document.getElementById('dealer-hand-label').textContent = `Dealer: ${finalDealerEval ? finalDealerEval.name : 'High Card'}`;
+
+  const cmp = compareHands(playerBest, dealerBest);
+  const res = document.getElementById('poker-result');
+
+  if (cmp > 0) {
+    state.balance += pokerPot;
+    res.textContent = `You win! ${playerEval ? playerEval.name : 'High Card'} beats dealer's ${finalDealerEval ? finalDealerEval.name : 'High Card'}. +${fmt(pokerPot - pokerBet)}`;
+    res.className = 'result-msg win';
+    recordResult('poker', true, pokerPot - pokerBet, pokerBet);
+  } else if (cmp === 0) {
+    state.balance += Math.floor(pokerPot / 2);
+    res.textContent = `Tie! Pot split. You get back ${fmt(Math.floor(pokerPot/2))}.`;
+    res.className = 'result-msg push';
+    recordResult('poker', false, 0, pokerBet);
+  } else {
+    res.textContent = `Dealer wins with ${finalDealerEval ? finalDealerEval.name : 'High Card'} vs your ${playerEval ? playerEval.name : 'High Card'}.`;
+    res.className = 'result-msg lose';
+    recordResult('poker', false, -pokerBet, pokerBet);
+  }
+
+  document.getElementById('poker-phase-hint').textContent = 'Deal again to play another hand';
+  document.getElementById('poker-pot-display').textContent = '';
+  showPokerButtons(['deal']);
+  updateUI();
+}
+
+// --- Hand evaluation ---
+function getRanks(hand) { return hand.map(c=>RANK_VAL[c.r]).sort((a,b)=>b-a); }
+function getSuits(hand) { return hand.map(c=>c.s); }
+function rankCounts(hand) {
+  const rc = {};
+  hand.forEach(c => rc[c.r] = (rc[c.r]||0)+1);
+  return Object.values(rc).sort((a,b)=>b-a);
+}
+function isFlush(hand) { return new Set(getSuits(hand)).size === 1; }
+function isStraight(hand) {
+  const r = getRanks(hand);
+  if (r[0]-r[4]===4 && new Set(r).size===5) return true;
+  // Wheel: A-2-3-4-5
+  if (JSON.stringify(r)===JSON.stringify([14,5,4,3,2])) return true;
+  return false;
+}
+function isRoyalFlush(hand) { return isFlush(hand)&&isStraight(hand)&&getRanks(hand)[0]===14&&getRanks(hand)[4]===10; }
+function isStraightFlush(hand) { return isFlush(hand)&&isStraight(hand)&&!isRoyalFlush(hand); }
+function isFourOfAKind(hand) { return rankCounts(hand)[0]===4; }
+function isFullHouse(hand) { const c=rankCounts(hand); return c[0]===3&&c[1]===2; }
+function isThreeOfAKind(hand) { const c=rankCounts(hand); return c[0]===3&&c[1]!==2; }
+function isTwoPair(hand) { const c=rankCounts(hand); return c[0]===2&&c[1]===2; }
+function isJacksOrBetter(hand) {
+  const rc={};
+  hand.forEach(c=>rc[c.r]=(rc[c.r]||0)+1);
+  return Object.entries(rc).some(([r,cnt])=>cnt>=2&&RANK_VAL[r]>=11);
+}
+
+function evaluateHand(hand) {
+  if (!hand || hand.length < 5) return null;
+  for (const p of VIDEO_POKER_PAYOUTS) {
+    if (p.check(hand)) return p;
+  }
+  return null;
+}
+
+// Build best 5-card hand from 7 cards (Texas)
+function bestFiveFromSeven(cards) {
+  let best = null, bestScore = -1;
+  const combos = getCombinations(cards, 5);
+  for (const combo of combos) {
+    const score = handScore7(combo);
+    if (score > bestScore) { bestScore = score; best = combo; }
+  }
+  return best;
+}
+
+function getCombinations(arr, k) {
+  if (k === 0) return [[]];
+  if (arr.length === 0) return [];
+  const [first, ...rest] = arr;
+  const withFirst = getCombinations(rest, k-1).map(c=>[first,...c]);
+  const withoutFirst = getCombinations(rest, k);
+  return [...withFirst, ...withoutFirst];
+}
+
+function handScore7(hand) {
+  if (isRoyalFlush(hand)) return 9000;
+  if (isStraightFlush(hand)) return 8000 + getRanks(hand)[0];
+  if (isFourOfAKind(hand)) return 7000 + getRanks(hand)[0];
+  if (isFullHouse(hand)) return 6000 + getRanks(hand)[0];
+  if (isFlush(hand)) return 5000 + getRanks(hand)[0];
+  if (isStraight(hand)) return 4000 + getRanks(hand)[0];
+  if (isThreeOfAKind(hand)) return 3000 + getRanks(hand)[0];
+  if (isTwoPair(hand)) return 2000 + getRanks(hand)[0];
+  if (isJacksOrBetter(hand)) return 1000 + getRanks(hand)[0];
+  return getRanks(hand)[0]; // high card
+}
+
+function compareHands(h1, h2) {
+  const s1 = handScore7(h1), s2 = handScore7(h2);
+  if (s1 > s2) return 1;
+  if (s1 < s2) return -1;
+  // Tiebreak: compare rank arrays
+  const r1 = getRanks(h1), r2 = getRanks(h2);
+  for (let i = 0; i < 5; i++) {
+    if (r1[i] > r2[i]) return 1;
+    if (r1[i] < r2[i]) return -1;
+  }
+  return 0;
+}
+
+function renderPokerPaytable() {
+  const el = document.getElementById('poker-paytable');
+  if (!el) return;
+  if (pokerMode === 'video') {
+    el.innerHTML = VIDEO_POKER_PAYOUTS.map(p =>
+      `<div class="ptp-row"><span class="ptp-name">${p.name}</span><span class="ptp-pay">×${p.pay}</span></div>`
+    ).join('');
+  } else {
+    el.innerHTML = `
+      <div class="ptp-row"><span class="ptp-name">Royal Flush</span><span class="ptp-pay">Jackpot</span></div>
+      <div class="ptp-row"><span class="ptp-name">Straight Flush</span><span class="ptp-pay">Best hand wins pot</span></div>
+      <div class="ptp-row"><span class="ptp-name">Four of a Kind</span><span class="ptp-pay">Best hand wins pot</span></div>
+      <div class="ptp-row"><span class="ptp-name">Raise doubles bet</span><span class="ptp-pay">Pot grows</span></div>
+      <div class="ptp-row"><span class="ptp-name">Fold = lose ante</span><span class="ptp-pay">Dealer takes pot</span></div>
+    `;
+  }
+}
+
 // ===================== INIT =====================
 load(); loadAdminCfg(); initRouletteBoard(); initRouletteWheel(); setDie('die1',6); setDie('die2',6);
+setPokerMode('video');
 updateUI(); updateDailyBtn(); renderPaytable();
 setInterval(()=>{updateDailyBtn();updateEarnUI();},10000);
 </script>
